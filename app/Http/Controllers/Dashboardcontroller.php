@@ -48,7 +48,8 @@ class Dashboardcontroller extends Controller
             ->select('class_sechedule_master.*', 'class_master.class_name as classname', 'instuctor_master.instructor_name')
             ->join('class_master', 'class_master.class_id', '=', 'class_sechedule_master.classsechedule_name')
             ->join('instuctor_master', 'instuctor_master.instructorid', '=', 'class_sechedule_master.instructor')
-            ->whereDate('class_sechedule_master.class_schedule', '<=', $date)
+            ->whereDate('class_sechedule_master.class_schedule', '>=', $date)
+            ->where('class_sechedule_master.status', 1)
             ->orderBy('class_schedule', 'ASC')
             ->get();
 
