@@ -1,0 +1,19 @@
+CREATE TABLE `notification_master` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `notification_text` varchar(1000) DEFAULT NULL,
+ `member_list` varchar(250) DEFAULT NULL,
+ `count` int(11) DEFAULT NULL,
+ `user_id` int(11) DEFAULT NULL,
+ `status` tinyint(1) DEFAULT '1',
+ `created_at` datetime DEFAULT NULL,
+ `updated_at` timestamp NULL DEFAULT NULL,
+ PRIMARY KEY (`id`)
+)
+
+
+ALTER TABLE link_relation_ship ADD dob DATE NULL AFTER relation, ADD image VARCHAR(250) NULL AFTER dob, ADD address VARCHAR(250) NULL AFTER image, ADD email_id VARCHAR(50) NULL AFTER address;
+
+
+
+ALTER TABLE `booking_table` ADD `bookingstatus` INT(1) NOT NULL COMMENT '1-attended 0- not attendaed' AFTER `rating_points`;
+

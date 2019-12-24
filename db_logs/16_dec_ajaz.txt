@@ -1,0 +1,1 @@
+ALTER TABLE login_master CHANGE role role VARCHAR(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'profile_id from profile_master';

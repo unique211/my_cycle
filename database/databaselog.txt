@@ -1,0 +1,132 @@
+
+Date---------29-11-2019
+
+create Database:gym
+CREATE DATABASE `gym` /*!40100 DEFAULT CHARACTER SET utf8 */
+
+
+
+Create Table: package_master
+
+CREATE TABLE `package_master` (
+ `packege_id` int(11) NOT NULL AUTO_INCREMENT,
+ `package_name` varchar(100) DEFAULT NULL,
+ `package_point` decimal(10,0) DEFAULT NULL,
+ `package_price` decimal(10,2) DEFAULT NULL,
+ `status` int(1) NOT NULL DEFAULT '1',
+ `user_id` int(11) NOT NULL DEFAULT '1',
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+ PRIMARY KEY (`packege_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8
+
+
+Create Table: log_master
+
+
+CREATE TABLE `log_master` (
+ `log_id` int(11) NOT NULL AUTO_INCREMENT,
+ `dateandtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ `module_name` varchar(100) NOT NULL,
+ `operation_name` varchar(100) NOT NULL,
+ `reference_id` int(11) NOT NULL,
+ `table_name` varchar(100) NOT NULL,
+ `user_id` int(11) NOT NULL DEFAULT '1',
+ `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+ `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+ PRIMARY KEY (`log_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
+/*----Date ------------30-11-2019---
+
+Create Table: classcategory_master
+
+r
+CREATE TABLE `classcategory_master` (
+ `classcategory_id` int(11) NOT NULL AUTO_INCREMENT,
+ `classcategory_name` varchar(100) NOT NULL,
+ `category_description` varchar(255) DEFAULT NULL,
+ `status` int(1) NOT NULL,
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+ `user_id` int(11) NOT NULL,
+ PRIMARY KEY (`classcategory_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
+Create Table: class_master
+
+CREATE TABLE `class_master` (
+ `class_id` int(11) NOT NULL AUTO_INCREMENT,
+ `class_name` varchar(100) NOT NULL,
+ `class_category` int(11) NOT NULL,
+ `class_description` varchar(255) DEFAULT NULL,
+ `status` int(1) NOT NULL,
+ `user_id` int(11) NOT NULL,
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+ PRIMARY KEY (`class_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8
+
+
+Create Table: room_master
+
+CREATE TABLE `room_master` (
+ `rooom_id` int(11) NOT NULL AUTO_INCREMENT,
+ `room` varchar(100) NOT NULL,
+ `status` int(1) NOT NULL,
+ `user_id` int(11) NOT NULL,
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+ PRIMARY KEY (`rooom_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8
+
+
+/*----Date ------------3-12-2019---
+
+Create Table: class_sechedule_master
+
+CREATE TABLE `class_sechedule_master` (
+ `classsechedule_id` int(11) NOT NULL AUTO_INCREMENT,
+ `classsechedule_name` int(11) NOT NULL,
+ `class_schedule` datetime NOT NULL,
+ `instructor` int(11) NOT NULL,
+ `max_vacancy` int(11) NOT NULL,
+ `class_duration` decimal(10,0) NOT NULL,
+ `room_id` int(11) NOT NULL,
+ `min_cancelation` datetime NOT NULL,
+ `min_booking` datetime NOT NULL,
+ `status` int(1) NOT NULL,
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+ `user_id` int(11) NOT NULL,
+ PRIMARY KEY (`classsechedule_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8
+
+
+Create Table: deal_master
+
+CREATE TABLE `deal_master` (
+ `deal_id` int(11) NOT NULL AUTO_INCREMENT,
+ `deal_title` varchar(255) NOT NULL,
+ `upload_img` varchar(255) NOT NULL,
+ `start_date` date NOT NULL,
+ `end_date` date NOT NULL,
+ `status` int(1) NOT NULL DEFAULT '1',
+ `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+ `user_id` int(11) NOT NULL,
+ PRIMARY KEY (`deal_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8
+
+
+
+
+
+
+
+
+
+
+
