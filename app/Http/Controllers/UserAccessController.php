@@ -329,6 +329,8 @@ class UserAccessController extends Controller
                         $user_name = $data1->user_name;
                         $email_id = $data1->email_id;
                         $mobileno = $data1->mobileno;
+                        $ref_id = $data1->ref_id;
+                        $role1 = $data1->role;
 
 
                         $status = $data1->status;
@@ -343,25 +345,25 @@ class UserAccessController extends Controller
                             ->first();
                         $instructor = $is_instructor->profile_id;
 
-                        $data = DB::table('login_master')
-                            ->select('login_master.*')
-                            ->where('login_master.login_id', $userid)
-                            ->first();
-                        $ref_id = $data->ref_id;
+                        // $data = DB::table('login_master')
+                        //     ->select('login_master.*')
+                        //     ->where('login_master.login_id', $userid)
+                        //     ->first();
+                        //  $ref_id = $data->ref_id;
 
                         $userid_name = "";
-                        if ($data->role == $instructor) {
-                            $data1 = DB::table('instuctor_master')
+                        if ($role1 == $instructor) {
+                            $data2 = DB::table('instuctor_master')
                                 ->select('instuctor_master.*')
                                 ->where('instuctor_master.instructorid', $ref_id)
                                 ->first();
-                            $userid_name = $data1->instructor_name;
+                            $userid_name = $data2->instructor_name;
                         } else {
-                            $data1 = DB::table('useraccess_master')
+                            $data2 = DB::table('useraccess_master')
                                 ->select('useraccess_master.*')
                                 ->where('useraccess_master.useraccess_id', $ref_id)
                                 ->first();
-                            $userid_name = $data1->user_name;
+                            $userid_name = $data2->user_name;
                         }
                     }
 
