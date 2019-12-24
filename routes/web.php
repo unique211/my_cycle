@@ -131,7 +131,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     //for Gallery Master
     Route::resource('gallery', 'GalleryController');
     Route::match(['get', 'post'], 'galleryuploadimg', 'GalleryController@galleryuploadimg');
-    Route::get('getallgallary', 'GalleryController@getallgallary');
+    Route::get('getallgallary/{id}', 'GalleryController@getallgallary');
     Route::get('getallgallary_all_data', 'GalleryController@getallgallary_all_data');
     Route::get('changepostshare/{id}/{status}', 'GalleryController@changepostshare');
     Route::get('deletegallary/{id}', 'GalleryController@deletegallary');

@@ -128,8 +128,10 @@
                                     <div class="form-group">
 
                                           <select name="allow_change" id="allow_change" class="form-control">
-<option value="" selected disabled>Select</option>
-                                            <option value="All" >All</option>
+
+                                            <option value="All" selected >All</option>
+                                            <option value="1" >Yes</option>
+                                            <option value="0" >No</option>
 
                                           </select>
 

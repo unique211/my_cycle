@@ -111,7 +111,8 @@ $(document).ready(function() {
         if (allow == "All") {
             url = 'getallgallary_all_data';
         } else {
-            url = 'getallgallary';
+            url = 'getallgallary/' + allow;
+            // url = 'getallgallary';
         }
 
         $.get(url, function(data) {
