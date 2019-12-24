@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Session;
+
 class Usermanagecontroller extends Controller
 {
     //
@@ -27,7 +28,7 @@ class Usermanagecontroller extends Controller
             } else {
                 $data['sidebar'] = null;
             }
-            return view('usermanagement',$data);
+            return view('usermanagement', $data);
         }
     }
 
@@ -60,8 +61,8 @@ class Usermanagecontroller extends Controller
 
 
                 DB::table('link_relation_ship')
-                ->where($where)
-                ->update(['firebase_token' => $firebase_token]);
+                    ->where($where)
+                    ->update(['firebase_token' => $firebase_token]);
 
                 if ($pass == "") {
                     DB::table('link_relation_ship')
@@ -166,61 +167,47 @@ class Usermanagecontroller extends Controller
 
     public function update_member_api(Request $request)
     {
+        if ($request->has('file')) {
+            $extension = $request->file('file')->getClientOriginalExtension();
+            $dir = 'gallaryimg/member/';
+            $filename = uniqid() . '_' . time() . '.' . $extension;
 
-        $extension = $request->file('file')->getClientOriginalExtension();
-        $dir = 'gallaryimg/member/';
-        $filename = uniqid() . '_' . time() . '.' . $extension;
+            // echo  dd($filename);
+            $request->file('file')->move($dir, $filename);
+            $image_name = $filename;
 
-        // echo  dd($filename);
-        $request->file('file')->move($dir, $filename);
-        $image_name = $filename;
+            $userid = $request->mobile_no;
 
-        $userid = $request->mobile_no;
+            $data = array(
+                'name' => $request->name,
+                'address' => $request->address,
+                'email_id' => $request->email_id,
+                'dob' => $request->dob,
+                'image' =>  $image_name,
+            );
+            DB::table('link_relation_ship')
+                ->where('userid', $userid)
+                ->update($data);
 
-        $data = array(
-            'name' => $request->name,
-            'address' => $request->address,
-            'email_id' => $request->email_id,
-            'dob' => $request->dob,
-            'image' =>  $image_name,
-        );
-        DB::table('link_relation_ship')
-        ->where('userid', $userid)
-        ->update($data);
+            return response()->json(['status' => 1, 'message' => "Member Updated"]);
+        } else {
 
-        return response()->json(['status' => 1]);
 
-        // $where = array('link_relation_ship.userid' => $userid);
-        // $data = DB::table('link_relation_ship')
-        //     ->select('link_relation_ship.*', 'member_master.*', 'package_master.package_name')
-        //     ->join('member_master', 'member_master.member_id', '=', 'link_relation_ship.member_id')
-        //     ->join('package_master', 'package_master.packege_id', '=', 'member_master.currentpackage')
-        //     ->where($where)
-        //     ->get();
+            $userid = $request->mobile_no;
 
-        // $cnt = count($data);
-        // if ($cnt > 0) {
-        //     foreach ($data as $val) {
-        //         $member_id = $val->member_id;
+            $data = array(
+                'name' => $request->name,
+                'address' => $request->address,
+                'email_id' => $request->email_id,
+                'dob' => $request->dob,
 
-        //         $data = array(
-        //             'membername' => $request->name,
-        //             'balancepoint' => $request->balance_point,
-        //             'address' => $request->address,
-        //             'email' => $request->email_id,
-        //             'dob' => $request->dob,
-        //             'image_url' =>  $image_name,
-        //         );
+            );
+            DB::table('link_relation_ship')
+                ->where('userid', $userid)
+                ->update($data);
 
-        //         DB::table('link_relation_ship')
-        //             ->where('member_id', $member_id)
-        //             ->update($data);
-        //     }
-
-         //   return response()->json(['status' => 1]);
-        // } else {
-        //     return response()->json(['status' => 0]);
-        // }
+            return response()->json(['status' => 1, 'message' => "Member Updated"]);
+        }
     }
 
 
@@ -295,18 +282,37 @@ class Usermanagecontroller extends Controller
     {
 
         $link_id = $request->link_id;
+        $chk_exist = DB::table('user_settings')
+            ->select('user_settings.*')
+            ->where('link_id', $link_id)
+            ->get()->count();
+        if ($chk_exist > 0) {
+            $data = array(
+                'receive_mobile_notification' => $request->receive_mobile_notification,
+                'prompt_me' => $request->prompt_me,
+                'language' => $request->language,
 
-        $data = array(
-            'receive_mobile_notification' => $request->receive_mobile_notification,
-            'prompt_me' => $request->prompt_me,
-            'language' => $request->language,
+            );
+            DB::table('user_settings')
+                ->where('link_id', $link_id)
+                ->update($data);
 
-        );
-        DB::table('user_settings')
-        ->where('link_id', $link_id)
-        ->update($data);
+            return response()->json(['status' => 1, 'message' => "User Setting Updated"]);
+        } else {
+            $data = array(
+                'receive_mobile_notification' => $request->receive_mobile_notification,
+                'prompt_me' => $request->prompt_me,
+                'language' => $request->language,
+                'link_id' => $request->link_id,
 
-        return response()->json(['status' => 1]);
+            );
+
+            $result =  DB::table('user_settings')
+                ->Insert($data);
+            return response()->json(['status' => 1, 'message' => "User Setting Inserted"]);
+        }
+
+
 
 
 

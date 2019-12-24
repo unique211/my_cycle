@@ -108,5 +108,12 @@ Route::get('get_site_settings_api', 'SiteSettingController@get_site_settings_api
 //update user settings
 Route::post('update_user_settings_api', 'Usermanagecontroller@update_user_settings_api');
 
+
+//get_notifications_api
+Route::post('get_notifications_api', 'GalleryController@get_notifications_api');
+
+//delete_notifications_api
+Route::post('delete_notifications_api', 'GalleryController@delete_notifications_api');
+
 });
 
