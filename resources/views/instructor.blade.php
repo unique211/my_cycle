@@ -21,7 +21,7 @@
             <div class="padding-md">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="panel panel-default formhideshow">
+                        <div class="panel panel-default formhideshow" style="display:none">
                             <div class="panel-heading">
                                 <h4><b>@lang('site_lables.Instructor')</b></h4>
 

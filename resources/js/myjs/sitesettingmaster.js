@@ -3,6 +3,36 @@ $(document).ready(function() {
 
     validate = 1;
 
+    var menu = 3;
+    var rights = 1;
+    user_access_rights();
+
+    function user_access_rights() {
+
+        $(".btnhideshow").show();
+
+        $(':input[type="submit"]').show();
+        $.ajax({
+            type: "POST",
+            url: 'get_current_rights2/' + menu,
+            dataType: "JSON",
+            async: false,
+            success: function(data) {
+
+                if (data == 0 || data == "0") {
+                    $(".btnhideshow").hide();
+
+                    $(':input[type="submit"]').hide();
+                    rights = 0;
+                } else {
+                    $(".btnhideshow").show();
+                    $(':input[type="submit"]').show();
+                    rights = 1;
+                }
+            }
+        });
+    }
+
 
     //for submite of from inserting or updating Recored  --------Start
     $(document).on('submit', '#master_form', function(e) {
@@ -155,13 +185,19 @@ $(document).ready(function() {
                     '<td style="display:none;" id="facebook_' + data[i].sitesetting_id + '">' + data[i].facebook + '</td>' +
                     '<td style="display:none;" id="instagram_' + data[i].sitesetting_id + '">' + data[i].instagram + '</td>' +
                     '<td style="display:none;" id="firebase_' + data[i].sitesetting_id + '">' + data[i].firebase + '</td>' +
-                    '<td style="display:none;" id="map_' + data[i].sitesetting_id + '">' + data[i].map + '</td>' +
+                    '<td style="display:none;" id="map_' + data[i].sitesetting_id + '">' + data[i].map + '</td>';
 
 
-                    '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
-                    data[i].sitesetting_id +
-                    '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
-                    data[i].sitesetting_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
+                if (rights == 1) {
+                    html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
+                        data[i].sitesetting_id +
+                        '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
+                        data[i].sitesetting_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
+                } else {
+                    html += '<td class="not-export-column" >-</td>' + '</tr>';
+                }
+
+
 
 
 

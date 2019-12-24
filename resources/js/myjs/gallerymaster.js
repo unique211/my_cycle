@@ -3,6 +3,37 @@ $(document).ready(function() {
 
     validate = 1;
 
+    var menu = 11;
+    var rights = 1;
+    user_access_rights();
+
+    function user_access_rights() {
+
+        $(".btnhideshow").show();
+        $(".formhideshow").show();
+        $(':input[type="submit"]').show();
+        $.ajax({
+            type: "POST",
+            url: 'get_current_rights/' + menu,
+            dataType: "JSON",
+            async: false,
+            success: function(data) {
+
+                if (data == 0 || data == "0") {
+                    $(".btnhideshow").hide();
+                    $(".formhideshow").hide();
+                    $(':input[type="submit"]').hide();
+                    rights = 0;
+                } else {
+                    $(".btnhideshow").show();
+                    $(".formhideshow").show();
+                    $(':input[type="submit"]').show();
+                    rights = 1;
+                }
+            }
+        });
+    }
+
 
     //for submite of from inserting or updating Recored  --------Start
     $(document).on('submit', '#master_form', function(e) {
@@ -80,7 +111,8 @@ $(document).ready(function() {
         if (allow == "All") {
             url = 'getallgallary_all_data';
         } else {
-            url = 'getallgallary';
+            url = 'getallgallary/' + allow;
+            // url = 'getallgallary';
         }
 
         $.get(url, function(data) {
@@ -106,19 +138,31 @@ $(document).ready(function() {
 
 
                     '<td style="display:none;" id="uploadimg_' + data[i].gallary_id + '">' + data[i].uploadimg + '</td>';
+                if (rights == 1) {
+                    if (st == 1) {
+                        html += '<td id="user_id_' + data[i].gallary_id + '"> 	<label class="checkbox-inline" style="margin-left:50px;">	<input type="checkbox" class="btnstatus"  id="chekcstatus_' + data[i].gallary_id + '" name="chekcstatus_' + data[i].gallary_id + '" checked data-toggle="toggle"    data-on="Yes" data-off="No"  data-onstyle="success" data-offstyle="danger"  ></label></td>';
+                    } else {
+                        html += '<td id="user_id_' + data[i].gallary_id + '"> <label class="checkbox-inline" style="margin-left:50px;">	<input type="checkbox" class="btnstatus"  id="chekcstatus_' + data[i].gallary_id + '" name="chekcstatus_' + data[i].gallary_id + '"  data-toggle="toggle"    data-on="Yes" data-off="No"  data-onstyle="success" data-offstyle="danger"  ></label></td>';
+                    }
 
-                if (st == 1) {
-                    html += '<td id="user_id_' + data[i].gallary_id + '"> 	<label class="checkbox-inline" style="margin-left:50px;">	<input type="checkbox" class="btnstatus"  id="chekcstatus_' + data[i].gallary_id + '" name="chekcstatus_' + data[i].gallary_id + '" checked data-toggle="toggle"    data-on="Yes" data-off="No"  data-onstyle="success" data-offstyle="danger"  ></label></td>';
+
+
+                    html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
+                        data[i].gallary_id +
+                        '  status=' + data[i].allowshare + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
+                        data[i].gallary_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
                 } else {
-                    html += '<td id="user_id_' + data[i].gallary_id + '"> <label class="checkbox-inline" style="margin-left:50px;">	<input type="checkbox" class="btnstatus"  id="chekcstatus_' + data[i].gallary_id + '" name="chekcstatus_' + data[i].gallary_id + '"  data-toggle="toggle"    data-on="Yes" data-off="No"  data-onstyle="success" data-offstyle="danger"  ></label></td>';
+                    if (st == 1) {
+                        html += '<td id="user_id_' + data[i].gallary_id + '"> 	<label class="checkbox-inline" style="margin-left:50px;">	<input type="checkbox" class="btnstatus" disabled id="chekcstatus_' + data[i].gallary_id + '" name="chekcstatus_' + data[i].gallary_id + '" checked data-toggle="toggle"    data-on="Yes" data-off="No"  data-onstyle="success" data-offstyle="danger"  ></label></td>';
+                    } else {
+                        html += '<td id="user_id_' + data[i].gallary_id + '"> <label class="checkbox-inline" style="margin-left:50px;">	<input type="checkbox" class="btnstatus" disabled  id="chekcstatus_' + data[i].gallary_id + '" name="chekcstatus_' + data[i].gallary_id + '"  data-toggle="toggle"    data-on="Yes" data-off="No"  data-onstyle="success" data-offstyle="danger"  ></label></td>';
+                    }
+
+
+
+                    html += '<td class="not-export-column" >-</td>' + '</tr>';
                 }
 
-
-
-                html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
-                    data[i].gallary_id +
-                    '  status=' + data[i].allowshare + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
-                    data[i].gallary_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
 
 
             }

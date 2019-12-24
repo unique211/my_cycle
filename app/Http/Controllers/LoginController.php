@@ -95,4 +95,57 @@ class LoginController extends Controller
         return $msg;
         // //   return Response::json($msg);
     }
+
+    public function get_current_rights($id)
+    {
+        $ref_id = Session::get('userid');
+        $menu = $id;
+        $data1 =  DB::table('useraccess_master')
+            ->select('useraccess_master.*', 'user_right_details.menuid', 'user_right_details.submenuid', 'user_right_details.userright')
+            ->join('user_right_details', 'user_right_details.useraccess_id', '=', 'useraccess_master.useraccess_id')
+            ->where('useraccess_master.email_id', $ref_id)
+            ->where('user_right_details.menuid', $menu)
+            ->get();
+
+        $cnt = count($data1);
+        $return = 2;
+        if ($cnt > 0) {
+            $rights = "";
+            foreach ($data1 as $val) {
+                $rights = $val->userright;
+            }
+            $return = $rights;
+        } else {
+            $return = 2;
+        }
+
+        // dd($return);
+        return Response::json($return);
+    }
+    public function get_current_rights2($id)
+    {
+        $ref_id = Session::get('userid');
+        $menu = $id;
+        $data1 =  DB::table('useraccess_master')
+            ->select('useraccess_master.*', 'user_right_details.menuid', 'user_right_details.submenuid', 'user_right_details.userright')
+            ->join('user_right_details', 'user_right_details.useraccess_id', '=', 'useraccess_master.useraccess_id')
+            ->where('useraccess_master.email_id', $ref_id)
+            ->where('user_right_details.submenuid', $menu)
+            ->get();
+
+        $cnt = count($data1);
+        $return = 2;
+        if ($cnt > 0) {
+            $rights = "";
+            foreach ($data1 as $val) {
+                $rights = $val->userright;
+            }
+            $return = $rights;
+        } else {
+            $return = 2;
+        }
+
+        // dd($return);
+        return Response::json($return);
+    }
 }

@@ -3,6 +3,37 @@ $(document).ready(function() {
 
     validate = 1;
 
+    var menu = 10;
+    var rights = 1;
+    user_access_rights();
+
+    function user_access_rights() {
+
+        $(".btnhideshow").show();
+        $(".formhideshow").show();
+        $(':input[type="submit"]').show();
+        $.ajax({
+            type: "POST",
+            url: 'get_current_rights/' + menu,
+            dataType: "JSON",
+            async: false,
+            success: function(data) {
+
+                if (data == 0 || data == "0") {
+                    $(".btnhideshow").hide();
+                    $(".formhideshow").hide();
+                    $(':input[type="submit"]').hide();
+                    rights = 0;
+                } else {
+                    $(".btnhideshow").show();
+                    $(".formhideshow").show();
+                    $(':input[type="submit"]').show();
+                    rights = 1;
+                }
+            }
+        });
+    }
+
 
     //for submite of from inserting or updating Recored  --------Start
     $(document).on('submit', '#master_form', function(e) {
@@ -123,12 +154,18 @@ $(document).ready(function() {
                     '<td id="deal_title_' + data[i].deal_id + '">' + data[i].deal_title + '</td>' +
                     '<td id="startdate_' + data[i].deal_id + '">' + startdate + '</td>' +
                     '<td id="end_date_' + data[i].deal_id + '">' + end_date + '</td>' +
-                    '<td style="display:none;" id="uploadimg_' + data[i].deal_id + '">' + data[i].upload_img + '</td>' +
+                    '<td style="display:none;" id="uploadimg_' + data[i].deal_id + '">' + data[i].upload_img + '</td>';
 
-                    '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
-                    data[i].deal_id +
-                    '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
-                    data[i].deal_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
+
+                if (rights == 1) {
+                    html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
+                        data[i].deal_id +
+                        '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
+                        data[i].deal_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
+                } else {
+                    html += '<td class="not-export-column" >-</td>' + '</tr>';
+                }
+
 
 
             }

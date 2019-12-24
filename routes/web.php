@@ -43,6 +43,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
     Route::resource('language', 'LanguagesController');
 
+    Route::post('get_current_rights/{id}', 'LoginController@get_current_rights');
+    Route::post('get_current_rights2/{id}', 'LoginController@get_current_rights2');
+
     Route::post('change_lang', array(
         'Middleware' => 'LanguageSwitcher',
         'uses' => 'LanguagesController@change_lang'
@@ -128,7 +131,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     //for Gallery Master
     Route::resource('gallery', 'GalleryController');
     Route::match(['get', 'post'], 'galleryuploadimg', 'GalleryController@galleryuploadimg');
-    Route::get('getallgallary', 'GalleryController@getallgallary');
+    Route::get('getallgallary/{id}', 'GalleryController@getallgallary');
     Route::get('getallgallary_all_data', 'GalleryController@getallgallary_all_data');
     Route::get('changepostshare/{id}/{status}', 'GalleryController@changepostshare');
     Route::get('deletegallary/{id}', 'GalleryController@deletegallary');
@@ -196,7 +199,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::post('getbetweenclasssechedule', 'MemberAttendenceTakingController@getbetweenclasssechedule');
     Route::post('getsechedulemember', 'MemberAttendenceTakingController@getsechedulemember');
     Route::get('getallattebdance', 'MemberController@getallattebdance');
-    
+
     //for attandancereport
 Route::post('getattandancedata', 'AttendenceRatingController@getattandancedata');
 });

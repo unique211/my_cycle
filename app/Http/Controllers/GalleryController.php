@@ -18,7 +18,20 @@ class GalleryController extends Controller
             // user value cannot be found in session
             return redirect('/');
         } else {
-            return view('gallery');
+            $ref_id = Session::get('userid');
+            $sidebar = DB::table('useraccess_master')
+                ->select('useraccess_master.*', 'user_right_details.menuid', 'user_right_details.submenuid')
+                ->join('user_right_details', 'user_right_details.useraccess_id', '=', 'useraccess_master.useraccess_id')
+                ->where('useraccess_master.email_id', $ref_id)
+
+                ->get();
+            $count = count($sidebar);
+            if ($count > 0) {
+                $data['sidebar'] = $sidebar;
+            } else {
+                $data['sidebar'] = null;
+            }
+            return view('gallery', $data);
         }
     }
 
@@ -123,14 +136,22 @@ class GalleryController extends Controller
 
         //return Response::json($package);
     }
-    public function getallgallary()
+    public function getallgallary($id)
     {
-        $data = DB::table('gallary_master')
+        if ($id == 1) {
+            $data = DB::table('gallary_master')
+                ->select('gallary_master.*')
+                ->where('allowshare', 1)
+                ->orderBy('gallary_id', 'DESC')
+                ->get();
+        } else {
+            $data = DB::table('gallary_master')
             ->select('gallary_master.*')
-            ->where('allowshare', 1)
+            ->where('allowshare', 0)
             ->orderBy('gallary_id', 'DESC')
-
             ->get();
+         }
+
 
         return Response::json($data);
     }
@@ -384,7 +405,7 @@ class GalleryController extends Controller
                         'add_date' => $date,
                     );
                     $inser_data =  DB::table('gallary_liked_master')
-                    ->Insert($insert);
+                        ->Insert($insert);
                 }
                 return response()->json(['status' => 1, 'message' => 'Liked']);
             } else {
