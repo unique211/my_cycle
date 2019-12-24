@@ -3,6 +3,37 @@ $(document).ready(function() {
 
     validate = 1;
 
+    var menu = 5;
+    var rights = 1;
+    user_access_rights();
+
+    function user_access_rights() {
+
+        $(".btnhideshow").show();
+        $(".formhideshow").show();
+        $(':input[type="submit"]').show();
+        $.ajax({
+            type: "POST",
+            url: 'get_current_rights/' + menu,
+            dataType: "JSON",
+            async: false,
+            success: function(data) {
+
+                if (data == 0 || data == "0") {
+                    $(".btnhideshow").hide();
+                    $(".formhideshow").hide();
+                    $(':input[type="submit"]').hide();
+                    rights = 0;
+                } else {
+                    $(".btnhideshow").show();
+                    $(".formhideshow").show();
+                    $(':input[type="submit"]').show();
+                    rights = 1;
+                }
+            }
+        });
+    }
+
 
     //for submite of from inserting or updating Recored  --------Start
     $(document).on('submit', '#master_form', function(e) {
@@ -100,17 +131,27 @@ $(document).ready(function() {
                     '<td id="packagename_' + data[i].packege_id + '">' + data[i].package_name + '</td>' +
                     '<td style="text-align:right;" id="packagepoint_' + data[i].packege_id + '">' + data[i].package_point + '</td>' +
                     '<td style="text-align:right;" id="package_price_' + data[i].packege_id + '">' + data[i].package_price + '</td>';
-                if (st == 1) {
-                    html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus"   id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '" checked data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+
+
+                if (rights == 1) {
+                    if (st == 1) {
+                        html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus"   id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '" checked data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                    } else {
+                        html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus"   id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '"  data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                    }
+                    html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
+                        data[i].packege_id +
+                        '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
+                        data[i].packege_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
                 } else {
-                    html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus"   id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '"  data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                    if (st == 1) {
+                        html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus" disabled  id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '" checked data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                    } else {
+                        html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus" disabled  id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '"  data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                    }
+                    html += '<td class="not-export-column" >-</td>' + '</tr>';
                 }
 
-
-                html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
-                    data[i].packege_id +
-                    '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
-                    data[i].packege_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
 
 
             }

@@ -4,6 +4,39 @@ $(document).ready(function() {
     validate = 1;
 
 
+    var menu = 7;
+    var rights = 1;
+    user_access_rights();
+
+    function user_access_rights() {
+
+        $(".btnhideshow").show();
+        $.ajax({
+            type: "POST",
+            url: 'get_current_rights2/' + menu,
+            dataType: "JSON",
+            async: false,
+            success: function(data) {
+
+                if (data == 0 || data == "0") {
+                    $(".btnhideshow").hide();
+                    rights = 0;
+                } else {
+                    $(".btnhideshow").show();
+                    rights = 1;
+                }
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
     //for submite of from inserting or updating Recored  --------Start
     $(document).on('submit', '#master_form', function(e) {
         e.preventDefault();
@@ -55,13 +88,13 @@ $(document).ready(function() {
                             } else {
                                 Attendence = "Absent";
                             }
-                            
-                        var rating='';
-                        if(data[i].rating_points == -1){
-                            rating='-';
-                        }else{
-                            rating=data[i].rating_points;
-                        }
+
+                            var rating = '';
+                            if (data[i].rating_points == -1) {
+                                rating = '-';
+                            } else {
+                                rating = data[i].rating_points;
+                            }
                             html += '<tr>' +
                                 '<td id="id_' + data[i].bookid + '">' + datetime + '</td>' +
                                 '<td id="classname_' + data[i].bookid + '">' + data[i].classname + '</td>' +
@@ -119,6 +152,14 @@ $(document).ready(function() {
         $('#statusinfo').val('');
         $('#btnsave').text('Save');
     }
+
+
+
+
+
+
+
+
 
     getinstructor();
     /*-----get all instructor -----*/

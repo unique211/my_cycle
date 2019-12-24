@@ -2,6 +2,37 @@ $(document).ready(function() {
 
     getallmenu();
 
+    var menu = 5;
+    var rights = 1;
+    user_access_rights();
+
+    function user_access_rights() {
+
+        $(".btnhideshow").show();
+        $(".formhideshow").show();
+        $(':input[type="submit"]').show();
+        $.ajax({
+            type: "POST",
+            url: 'get_current_rights2/' + menu,
+            dataType: "JSON",
+            async: false,
+            success: function(data) {
+
+                if (data == 0 || data == "0") {
+                    $(".btnhideshow").hide();
+                    $(".formhideshow").hide();
+                    $(':input[type="submit"]').hide();
+                    rights = 0;
+                } else {
+                    $(".btnhideshow").show();
+                    $(".formhideshow").show();
+                    $(':input[type="submit"]').show();
+                    rights = 1;
+                }
+            }
+        });
+    }
+
     function getallmenu() {
         $.ajax({
             type: "GET",
@@ -219,14 +250,18 @@ $(document).ready(function() {
 
                 html += '<tr>' +
                     '<td id="id_' + data[i].profile_id + '">' + sr + '</td>' +
-                    '<td id="profile_type_' + data[i].profile_id + '">' + data[i].profile_type + '</td>' +
+                    '<td id="profile_type_' + data[i].profile_id + '">' + data[i].profile_type + '</td>';
 
 
+                if (rights == 1) {
+                    html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
+                        data[i].profile_id +
+                        '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
+                        data[i].profile_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
+                } else {
+                    html += '<td class="not-export-column" >-</td>' + '</tr>';
+                }
 
-                    '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
-                    data[i].profile_id +
-                    '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
-                    data[i].profile_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
 
 
             }

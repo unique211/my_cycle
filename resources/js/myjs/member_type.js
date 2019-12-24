@@ -3,6 +3,37 @@ $(document).ready(function() {
 
     validate = 1;
 
+    var menu = 2;
+    var rights = 1;
+    user_access_rights();
+
+    function user_access_rights() {
+
+        $(".btnhideshow").show();
+        $(".formhideshow").show();
+        $(':input[type="submit"]').show();
+        $.ajax({
+            type: "POST",
+            url: 'get_current_rights2/' + menu,
+            dataType: "JSON",
+            async: false,
+            success: function(data) {
+
+                if (data == 0 || data == "0") {
+                    $(".btnhideshow").hide();
+                    $(".formhideshow").hide();
+                    $(':input[type="submit"]').hide();
+                    rights = 0;
+                } else {
+                    $(".btnhideshow").show();
+                    $(".formhideshow").show();
+                    $(':input[type="submit"]').show();
+                    rights = 1;
+                }
+            }
+        });
+    }
+
 
     //for submite of from inserting or updating Recored  --------Start
     $(document).on('submit', '#master_form', function(e) {
@@ -82,13 +113,17 @@ $(document).ready(function() {
 
                 html += '<tr>' +
                     '<td id="id_' + data[i].membertype_id + '">' + sr + '</td>' +
-                    '<td id="member_type_' + data[i].membertype_id + '">' + data[i].member_type + '</td>' +
+                    '<td id="member_type_' + data[i].membertype_id + '">' + data[i].member_type + '</td>';
 
+                if (rights == 1) {
+                    html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
+                        data[i].membertype_id +
+                        '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
+                        data[i].membertype_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
+                } else {
+                    html += '<td class="not-export-column" >-</td>' + '</tr>';
+                }
 
-                    '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
-                    data[i].membertype_id +
-                    '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
-                    data[i].membertype_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
 
 
 

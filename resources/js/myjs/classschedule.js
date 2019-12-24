@@ -3,6 +3,37 @@ $(document).ready(function() {
 
     validate = 1;
 
+    var menu = 9;
+    var rights = 1;
+    user_access_rights();
+
+    function user_access_rights() {
+
+        $(".btnhideshow").show();
+        $(".formhideshow").show();
+        $(':input[type="submit"]').show();
+        $.ajax({
+            type: "POST",
+            url: 'get_current_rights/' + menu,
+            dataType: "JSON",
+            async: false,
+            success: function(data) {
+
+                if (data == 0 || data == "0") {
+                    $(".btnhideshow").hide();
+                    $(".formhideshow").hide();
+                    $(':input[type="submit"]').hide();
+                    rights = 0;
+                } else {
+                    $(".btnhideshow").show();
+                    $(".formhideshow").show();
+                    $(':input[type="submit"]').show();
+                    rights = 1;
+                }
+            }
+        });
+    }
+
 
     var date = new Date();
     var date2 = new Date();
@@ -168,18 +199,29 @@ $(document).ready(function() {
                     '<td  style="display:none;" id="endtime_' + data[i].classsechedule_id + '">' + checkdate + " " + duration + '</td>';
 
 
+                if (rights == 1) {
+                    if (st == 1) {
+                        html += '<td id="user_id_' + data[i].classsechedule_id + '"><input type="checkbox" class="btnstatus"  id="chekcstatus_' + data[i].classsechedule_id + '" name="chekcstatus_' + data[i].classsechedule_id + '" checked data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                    } else {
+                        html += '<td id="user_id_' + data[i].classsechedule_id + '"> 	<input type="checkbox" class="btnstatus"  id="chekcstatus_' + data[i].classsechedule_id + '" name="chekcstatus_' + data[i].classsechedule_id + '"  data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                    }
 
-                if (st == 1) {
-                    html += '<td id="user_id_' + data[i].classsechedule_id + '"><input type="checkbox" class="btnstatus"  id="chekcstatus_' + data[i].classsechedule_id + '" name="chekcstatus_' + data[i].classsechedule_id + '" checked data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+
+                    html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
+                        data[i].classsechedule_id +
+                        '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
+                        data[i].classsechedule_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
                 } else {
-                    html += '<td id="user_id_' + data[i].classsechedule_id + '"> 	<input type="checkbox" class="btnstatus"  id="chekcstatus_' + data[i].classsechedule_id + '" name="chekcstatus_' + data[i].classsechedule_id + '"  data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                    if (st == 1) {
+                        html += '<td id="user_id_' + data[i].classsechedule_id + '"><input type="checkbox" class="btnstatus" disabled  id="chekcstatus_' + data[i].classsechedule_id + '" name="chekcstatus_' + data[i].classsechedule_id + '" checked data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                    } else {
+                        html += '<td id="user_id_' + data[i].classsechedule_id + '"> 	<input type="checkbox" class="btnstatus" disabled id="chekcstatus_' + data[i].classsechedule_id + '" name="chekcstatus_' + data[i].classsechedule_id + '"  data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                    }
+
+
+                    html += '<td class="not-export-column" >-</td>' + '</tr>';
                 }
 
-
-                html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
-                    data[i].classsechedule_id +
-                    '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
-                    data[i].classsechedule_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
 
 
             }

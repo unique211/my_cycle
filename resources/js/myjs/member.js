@@ -1,5 +1,36 @@
 $(document).ready(function() {
 
+    var menu = 4;
+    var rights = 1;
+    user_access_rights();
+
+    function user_access_rights() {
+
+        $(".btnhideshow").show();
+        $(".formhideshow").show();
+        $(':input[type="submit"]').show();
+        $.ajax({
+            type: "POST",
+            url: 'get_current_rights/' + menu,
+            dataType: "JSON",
+            async: false,
+            success: function(data) {
+
+                if (data == 0 || data == "0") {
+                    $(".btnhideshow").hide();
+                    $(".formhideshow").hide();
+                    $(':input[type="submit"]').hide();
+                    rights = 0;
+                } else {
+                    $(".btnhideshow").show();
+                    $(".formhideshow").show();
+                    $(':input[type="submit"]').show();
+                    rights = 1;
+                }
+            }
+        });
+    }
+
     $(document).on('click', '#plus2', function() {
         var id = $('#tbl_id').val();
         id = parseInt(id) + parseInt(1);
@@ -367,16 +398,20 @@ $(document).ready(function() {
                     '<td style="display:none;" id="email_' + data[i].member_id + '">' + data[i].email + '</td>' +
                     '<td style="display:none;" id="currentpackage_' + data[i].member_id + '">' + data[i].currentpackage + '</td>' +
                     '<td style="display:none;" id="balancepoint_' + data[i].member_id + '">' + data[i].balancepoint + '</td>' +
-                    '<td style="display:none;" id="password_' + data[i].member_id + '">' + data[i].password + '</td>' +
+                    '<td style="display:none;" id="password_' + data[i].member_id + '">' + data[i].password + '</td>';
 
 
+                if (rights == 1) {
+                    html += '<td class="not-export-column" ><button name="view"  value="view" class="btn btn-xs btn-warning view_data" id=' +
+                        data[i].member_id +
+                        ' ><i class="fa fa-eye"></i></button>&nbsp;<button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
+                        data[i].member_id +
+                        '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
+                        data[i].member_id + '><i class="fa fa-trash"></button></td>' + '</tr>';
+                } else {
+                    html += '<td class="not-export-column" >-</td>' + '</tr>';
+                }
 
-                    '<td class="not-export-column" ><button name="view"  value="view" class="btn btn-xs btn-warning view_data" id=' +
-                    data[i].member_id +
-                    ' ><i class="fa fa-eye"></i></button>&nbsp;<button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
-                    data[i].member_id +
-                    '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
-                    data[i].member_id + '><i class="fa fa-trash"></button></td>' + '</tr>';
 
 
 

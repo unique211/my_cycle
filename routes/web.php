@@ -43,6 +43,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
     Route::resource('language', 'LanguagesController');
 
+    Route::post('get_current_rights/{id}', 'LoginController@get_current_rights');
+    Route::post('get_current_rights2/{id}', 'LoginController@get_current_rights2');
+
     Route::post('change_lang', array(
         'Middleware' => 'LanguageSwitcher',
         'uses' => 'LanguagesController@change_lang'
@@ -196,7 +199,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::post('getbetweenclasssechedule', 'MemberAttendenceTakingController@getbetweenclasssechedule');
     Route::post('getsechedulemember', 'MemberAttendenceTakingController@getsechedulemember');
     Route::get('getallattebdance', 'MemberController@getallattebdance');
-    
+
     //for attandancereport
 Route::post('getattandancedata', 'AttendenceRatingController@getattandancedata');
 });
