@@ -146,11 +146,11 @@ class GalleryController extends Controller
                 ->get();
         } else {
             $data = DB::table('gallary_master')
-            ->select('gallary_master.*')
-            ->where('allowshare', 0)
-            ->orderBy('gallary_id', 'DESC')
-            ->get();
-         }
+                ->select('gallary_master.*')
+                ->where('allowshare', 0)
+                ->orderBy('gallary_id', 'DESC')
+                ->get();
+        }
 
 
         return Response::json($data);
@@ -444,6 +444,55 @@ class GalleryController extends Controller
                     ->update($set);
             }
             return response()->json(['status' => 1]);
+        }
+    }
+
+    public function get_notifications_api(Request $request)
+    {
+
+
+        $data = DB::table('member_notification')
+            ->select('member_notification.*')
+            ->where('link_ref_id', $request->link_ref_id)
+            ->where('status', 1)
+            ->get();
+        $result = array();
+
+
+
+        foreach ($data as $val) {
+
+
+            $result[] = array(
+                'n_id' => $val->n_id,
+                'notification_msg' => $val->notification_msg,
+            );
+        }
+
+
+        return response()->json($result);
+    }
+
+    public function delete_notifications_api(Request $request)
+    {
+
+
+        $data = DB::table('member_notification')
+            ->select('member_notification.*')
+            ->where('n_id', $request->n_id)
+            ->get()->count();
+
+
+
+
+        if ($data > 0) {
+            $result = DB::table('member_notification')
+            ->where('n_id', $request->n_id)
+            ->update(['status' => 0]);
+
+            return response()->json(['status' => 1, 'message' => "Notification Deleted"]);
+        } else {
+            return response()->json(['status' => 0, 'message' => "Not Found"]);
         }
     }
 }
