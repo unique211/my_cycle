@@ -9,7 +9,7 @@ $(document).ready(function() {
     function user_access_rights() {
 
         $(".btnhideshow").show();
-        $(".formhideshow").show();
+
         $(':input[type="submit"]').show();
         $.ajax({
             type: "POST",
@@ -25,7 +25,7 @@ $(document).ready(function() {
                     rights = 0;
                 } else {
                     $(".btnhideshow").show();
-                    $(".formhideshow").show();
+
                     $(':input[type="submit"]').show();
                     rights = 1;
                 }

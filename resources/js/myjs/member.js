@@ -7,7 +7,7 @@ $(document).ready(function() {
     function user_access_rights() {
 
         $(".btnhideshow").show();
-        $(".formhideshow").show();
+
         $(':input[type="submit"]').show();
         $.ajax({
             type: "POST",
@@ -23,7 +23,7 @@ $(document).ready(function() {
                     rights = 0;
                 } else {
                     $(".btnhideshow").show();
-                    $(".formhideshow").show();
+
                     $(':input[type="submit"]').show();
                     rights = 1;
                 }
@@ -409,7 +409,9 @@ $(document).ready(function() {
                         '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
                         data[i].member_id + '><i class="fa fa-trash"></button></td>' + '</tr>';
                 } else {
-                    html += '<td class="not-export-column" >-</td>' + '</tr>';
+                    html += '<td class="not-export-column" ><button name="view"  value="view" class="btn btn-xs btn-warning view_data" id=' +
+                        data[i].member_id +
+                        ' ><i class="fa fa-eye"></i></button></td>' + '</tr>';
                 }
 
 
