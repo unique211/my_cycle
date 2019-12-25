@@ -52,6 +52,7 @@ $(document).ready(function() {
     //for submite of from inserting or updating Recored  --------Start
     $(document).on('submit', '#master_form', function(e) {
         e.preventDefault();
+        var id = $("#save_update").val();
         var class_schedule = $('#class_schedule').val();
         var min_cancelation = $('#min_cancelation').val();
         var min_booking = $('#min_booking').val();
@@ -66,7 +67,44 @@ $(document).ready(function() {
 
         if (class_duration > 0 && max_vacancy > 0) {
 
-            if (classsh == 1 && mintime == 1 && minbooktime == 1) {
+            if (id == "") {
+                if (classsh == 1 && mintime == 1 && minbooktime == 1) {
+
+                    var status = 0;
+                    if ($('#status').is(":checked")) {
+                        status = 1;
+                    } else {
+                        status = 0;
+                    }
+
+                    $('#statusinfo').val(status);
+
+                    $.ajax({
+                        data: $('#master_form').serialize(),
+                        url: add_data,
+                        type: "POST",
+                        dataType: 'json',
+                        success: function(data) {
+
+
+                            datashow();
+
+                            successTost("Opration Save Success fully!!!");
+
+                            from_clear();
+
+
+                        },
+                        error: function(data) {
+                            console.log('Error:', data);
+
+                        }
+                    });
+                } else {
+                    swal('Min Cancelation Time,Min Booking Time And Class Schedule Time is Always Greater then Current Time !!!');
+                }
+            } else {
+
 
                 var status = 0;
                 if ($('#status').is(":checked")) {
@@ -98,9 +136,10 @@ $(document).ready(function() {
 
                     }
                 });
-            } else {
-                swal('Min Cancelation Time,Min Booking Time And Class Schedule Time is Always Greater then Current Time !!!');
+
             }
+
+
         } else {
             swal('Class Duration (In Minutes) And Max Vacancy Greater Zero');
         }
@@ -130,12 +169,12 @@ $(document).ready(function() {
         $('#status').bootstrapToggle('on');
 
         var date = new Date();
-        var date2 = new Date();
+
 
 
         date = date.toString('dd/MM/yyyy HH:mm:ss');
 
-
+        var date2 = new Date();
         date2.setMinutes(date2.getMinutes() + 5);
 
         date2 = date2.toString('dd/MM/yyyy HH:mm:ss');
@@ -285,6 +324,7 @@ $(document).ready(function() {
         $('#instructorid').val(instructor).trigger('change');
         $('#max_vacancy').val(max_vacancy);
         $('#class_duration').val(class_duration);
+
         $('#room_id').val(room_id).trigger('change');
         $('#min_cancelation').val(min_cancelation1);
         $('#min_booking').val(min_booking1);
@@ -564,19 +604,37 @@ $(document).ready(function() {
 
     });
 
+
     //blur event of  class sechedule
-    $(document).on('blur', '#min_cancelation', function() {
+    $(document).on('blur', '#min_cancelation', function(e) {
+        e.preventDefault();
+
         var class_schedule = $('#class_schedule').val();
         var min_cancelation = $('#min_cancelation').val();
-        var mintime = checktime(min_cancelation);
+
+        var id = $("#save_update").val();
+        if (id == "") {
+            var mintime = checktime(min_cancelation);
 
 
-        if (mintime == 0) {
-            swal({
-                title: "Min Cancelation Time is always greater then Current Time !!!",
+            if (mintime == 0) {
+                swal({
+                    title: "Min Cancelation Time is always greater then Current Time !!!",
 
-            });
+                });
+            }
+        } else {
+            var mintime = mincanclatontime(class_schedule, min_cancelation);
+
+            if (mintime == 0) {
+                swal({
+                    title: "Min Cancelation Time is always Less then Class Schedule Time !!!",
+
+                });
+            }
         }
+
+
 
 
     });
@@ -586,14 +644,30 @@ $(document).ready(function() {
         var class_schedule = $('#class_schedule').val();
         var min_booking = $('#min_booking').val();
         // var mintime = mincanclatontime(class_schedule, min_booking);
-        var mintime = checktime(min_booking);
 
-        if (mintime == 0) {
-            swal({
-                title: "Min Booking Time is always greater then Current Time !!!",
+        var id = $("#save_update").val();
+        if (id == "") {
+            var mintime = checktime(min_booking);
 
-            });
+
+            if (mintime == 0) {
+                swal({
+                    title: "Min Booking Time is always greater then Current Time !!!",
+
+                });
+            }
+        } else {
+            var mintime = mincanclatontime(class_schedule, min_booking);
+
+            if (mintime == 0) {
+                swal({
+                    title: "Min Booking Time is always Less then Class Schedule Time !!!",
+
+                });
+            }
         }
+
+
 
 
     });
@@ -632,12 +706,44 @@ $(document).ready(function() {
 
     }
 
+    function checktime2(class_schedule) {
+
+
+        var date = class_schedule;
+        var fdateslt = date.split('/');
+
+        var time = fdateslt[2].split(' ');
+        var checkouttime = time[0] + '/' + fdateslt[1] + '/' + fdateslt[0];
+        var usrDate = time[0] + '/' + fdateslt[1] + '/' + fdateslt[0] + ' ' + time[1];
+
+        currentDate = new Date(); //system current date
+        currentMonth = currentDate.getMonth() + 1;
+        currentDay = currentDate.getDate();
+        currentYear = currentDate.getFullYear();
+        currentHours = currentDate.getHours();
+        currentMinutes = currentDate.getMinutes();
+        currentSeconds = currentDate.getSeconds();
+
+
+
+        currentcpDateTime = currentMonth + "/" + currentDay + "/" + currentYear + " " + currentHours + ":" + currentMinutes + ":" + currentSeconds;
+
+        if (Date.parse(usrDate) > Date.parse(currentcpDateTime)) {
+            return 1;
+        } else {
+            return 0;
+        }
+
+
+
+    }
+
     //Min Cancelation time check
     function mincanclatontime(class_schedule, min_cancelation) {
 
 
 
-        if (Date.parse(min_cancelation) > Date.parse(class_schedule)) {
+        if (Date.parse(min_cancelation) < Date.parse(class_schedule)) {
             return 1;
         } else {
             return 0;

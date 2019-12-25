@@ -32,7 +32,7 @@ class ClassScheduleController extends Controller
             } else {
                 $data['sidebar'] = null;
             }
-            return view('class_schedule',$data);
+            return view('class_schedule', $data);
         }
     }
     //getall class
@@ -132,6 +132,53 @@ class ClassScheduleController extends Controller
                     $Logmodel->table_name = 'class_sechedule_master';
                     $Logmodel->user_id = $user_id;
                     $Logmodel->save();
+
+                    $data = DB::table('class_sechedule_master')
+
+                        ->join('class_master', 'class_master.class_id', '=', 'class_sechedule_master.classsechedule_name')
+                        ->join('instuctor_master', 'instuctor_master.instructorid', '=', 'class_sechedule_master.instructor')
+                        ->select('class_sechedule_master.*', 'class_master.class_name as classname', 'instuctor_master.instructor_name')
+                        ->where('class_schedule', '>=', date('Y-m-d H:i:s'))
+                        ->where('class_sechedule_master.classsechedule_id', $catid)
+                        ->first();
+
+                    $message = "";
+
+                    if ($request->statusinfo == 0) {
+                        $message = 'Class Schedule Canceled,' . $data->classname . ',' . $data->class_schedule . ',' . $data->instructor_name;
+                    } else {
+                        $message = 'Class Schedule Modified,' . $data->classname . ',' . $data->class_schedule . ',' . $data->instructor_name;
+                    }
+
+
+
+                    $bookings = DB::table('booking_table')
+                        ->select('booking_table.*')
+                        ->where('booking_table.class_schedule_id', $catid)
+                        ->where('booking_table.is_cancelled', 1)
+                        ->where('booking_table.rating_points', -1)
+                        ->get();
+                    $cnt = count($bookings);
+                    date_default_timezone_set('Asia/Kolkata');
+                    $date = date("Y-m-d H:i:s");
+
+                    if ($cnt > 0) {
+                        foreach ($bookings as $value) {
+                            $data_notification = array(
+                                'notification_msg' => $message,
+                                'link_ref_id' => $value->link_id,
+                                'msg_type' => 2,
+                                'created_at' => $date,
+                                'updated_at' => $date,
+
+                            );
+
+
+
+                            $result =  DB::table('member_notification')
+                                ->Insert($data_notification);
+                        }
+                    }
                 } else {
                     $Logmodel = new Logmodel;
 
@@ -261,6 +308,49 @@ class ClassScheduleController extends Controller
     }
     public function deleteclasssechedule($id)
     {
+
+        //  $customer ="";
+
+        $data = DB::table('class_sechedule_master')
+
+            ->join('class_master', 'class_master.class_id', '=', 'class_sechedule_master.classsechedule_name')
+            ->join('instuctor_master', 'instuctor_master.instructorid', '=', 'class_sechedule_master.instructor')
+            ->select('class_sechedule_master.*', 'class_master.class_name as classname', 'instuctor_master.instructor_name')
+            ->where('class_schedule', '>=', date('Y-m-d H:i:s'))
+            ->where('class_sechedule_master.classsechedule_id', $id)
+            ->first();
+
+        $message = 'Class Schedule Canceled,' . $data->classname . ',' . $data->class_schedule . ',' . $data->instructor_name;
+
+        $bookings = DB::table('booking_table')
+            ->select('booking_table.*')
+            ->where('booking_table.class_schedule_id', $id)
+            ->where('booking_table.is_cancelled', 1)
+            ->where('booking_table.rating_points', -1)
+            ->get();
+        $cnt = count($bookings);
+        date_default_timezone_set('Asia/Kolkata');
+        $date = date("Y-m-d H:i:s");
+
+        if ($cnt > 0) {
+            foreach ($bookings as $value) {
+                $data_notification = array(
+                    'notification_msg' => $message,
+                    'link_ref_id' => $value->link_id,
+                    'msg_type' => 2,
+                    'created_at' => $date,
+                    'updated_at' => $date,
+
+                );
+
+
+
+                $result =  DB::table('member_notification')
+                    ->Insert($data_notification);
+            }
+        }
+
+
         $user_id = Session::get('login_id');
         $Logmodel = new Logmodel;
 
@@ -419,6 +509,58 @@ class ClassScheduleController extends Controller
         $Logmodel->save();
 
         $customer = DB::update('update class_sechedule_master set status = ? where classsechedule_id = ?', [$status, $id]);
+
+
+        $data = DB::table('class_sechedule_master')
+
+            ->join('class_master', 'class_master.class_id', '=', 'class_sechedule_master.classsechedule_name')
+            ->join('instuctor_master', 'instuctor_master.instructorid', '=', 'class_sechedule_master.instructor')
+            ->select('class_sechedule_master.*', 'class_master.class_name as classname', 'instuctor_master.instructor_name')
+            ->where('class_schedule', '>=', date('Y-m-d H:i:s'))
+            ->where('class_sechedule_master.classsechedule_id', $id)
+            ->first();
+
+        $message = "";
+
+        if ($status == 0) {
+            $message = 'Class Schedule Canceled,' . $data->classname . ',' . $data->class_schedule . ',' . $data->instructor_name;
+        } else {
+            $message = 'Class Schedule Modified,' . $data->classname . ',' . $data->class_schedule . ',' . $data->instructor_name;
+        }
+
+
+
+        $bookings = DB::table('booking_table')
+            ->select('booking_table.*')
+            ->where('booking_table.class_schedule_id', $id)
+            ->where('booking_table.is_cancelled', 1)
+            ->where('booking_table.rating_points', -1)
+            ->get();
+        $cnt = count($bookings);
+        date_default_timezone_set('Asia/Kolkata');
+        $date = date("Y-m-d H:i:s");
+
+        if ($cnt > 0) {
+            foreach ($bookings as $value) {
+                $data_notification = array(
+                    'notification_msg' => $message,
+                    'link_ref_id' => $value->link_id,
+                    'msg_type' => 2,
+                    'created_at' => $date,
+                    'updated_at' => $date,
+
+                );
+
+
+
+                $result =  DB::table('member_notification')
+                    ->Insert($data_notification);
+            }
+        }
+
+
+
+
         return Response::json($customer);
     }
     public function getdropallinstuctor()
@@ -739,7 +881,7 @@ class ClassScheduleController extends Controller
                 $is_booked = "False";
             }
 
-            $result= array(
+            $result = array(
                 'id' => $val2->classsechedule_id,
                 'class_schedule' => $val2->class_schedule,
                 'class_name' => $val2->classname,
@@ -759,5 +901,176 @@ class ClassScheduleController extends Controller
         $result = array('data' => $result);
 
         return response()->json($result);
+    }
+
+
+    public function email_api(Request $request)
+    {
+
+
+
+        date_default_timezone_set('Asia/Kolkata');
+        $date = date("Y-m-d H:i:s");
+
+
+        $data = array(
+            'name' => $request->name,
+            'email' => $request->email,
+            'subject' => $request->subject,
+            'message' => $request->message,
+            'link_id' => $request->link_id,
+            'add_date' => $date,
+            'update_date' => $date,
+        );
+
+
+        $result =  DB::table('email_master')
+            ->Insert($data);
+
+
+
+
+        return response()->json(['status' => 1, 'message' => "Data Inserted"]);
+    }
+
+    public function send_reminder(Request $request)
+    {
+        $message = "";
+
+
+        date_default_timezone_set('Asia/Kolkata');
+        $date = date("Y-m-d H:i:s");
+        $tomorrow = date('Y-m-d', strtotime(' +1 day'));
+        $day_after_tomorrow = date('Y-m-d', strtotime(' +2 day'));
+
+
+        $data1 = DB::table('class_sechedule_master')
+
+            ->join('class_master', 'class_master.class_id', '=', 'class_sechedule_master.classsechedule_name')
+            ->join('instuctor_master', 'instuctor_master.instructorid', '=', 'class_sechedule_master.instructor')
+            ->select('class_sechedule_master.*', 'class_master.class_name as classname', 'instuctor_master.instructor_name')
+            ->whereDate('class_sechedule_master.class_schedule', $tomorrow)
+            ->get();
+
+
+
+        $cnt1 = count($data1);
+        if ($cnt1 > 0) {
+
+            foreach ($data1 as $val1) {
+                $message = 'You have Booking for Tomorrow,' . $val1->classname . ',' . $val1->class_schedule . ',' . $val1->instructor_name;
+                $bookings = DB::table('booking_table')
+                    ->select('booking_table.*')
+                    ->where('booking_table.class_schedule_id', $val1->classsechedule_id)
+                    ->where('booking_table.is_cancelled', 1)
+                    ->where('booking_table.rating_points', -1)
+                    ->get();
+                $cntb = count($bookings);
+                if ($cntb > 0) {
+                    foreach ($bookings as $value) {
+                        $data_notification = array(
+                            'notification_msg' => $message,
+                            'link_ref_id' => $value->link_id,
+                            'msg_type' => 3,
+                            'created_at' => $date,
+                            'updated_at' => $date,
+
+                        );
+
+
+
+                        $result =  DB::table('member_notification')
+                            ->Insert($data_notification);
+                    }
+                }
+            }
+        }
+
+
+        $data2 = DB::table('class_sechedule_master')
+
+            ->join('class_master', 'class_master.class_id', '=', 'class_sechedule_master.classsechedule_name')
+            ->join('instuctor_master', 'instuctor_master.instructorid', '=', 'class_sechedule_master.instructor')
+            ->select('class_sechedule_master.*', 'class_master.class_name as classname', 'instuctor_master.instructor_name')
+            ->whereDate('class_sechedule_master.class_schedule', $day_after_tomorrow)
+            ->get();
+
+
+
+        $cnt2 = count($data2);
+        if ($cnt2 > 0) {
+
+            foreach ($data2 as $val2) {
+                $message = 'You have Booking for Day after Tomorrow,' . $val2->classname . ',' . $val2->class_schedule . ',' . $val2->instructor_name;
+                $bookings = DB::table('booking_table')
+                    ->select('booking_table.*')
+                    ->where('booking_table.class_schedule_id', $val2->classsechedule_id)
+                    ->where('booking_table.is_cancelled', 1)
+                    ->where('booking_table.rating_points', -1)
+                    ->get();
+                $cntb2 = count($bookings);
+                if ($cntb2 > 0) {
+                    foreach ($bookings as $value) {
+                        $data_notification = array(
+                            'notification_msg' => $message,
+                            'link_ref_id' => $value->link_id,
+                            'msg_type' => 3,
+                            'created_at' => $date,
+                            'updated_at' => $date,
+
+                        );
+
+
+
+                        $result =  DB::table('member_notification')
+                            ->Insert($data_notification);
+                    }
+                }
+            }
+        }
+
+        $date1 = date("Y-m-d");
+        $data3 = DB::table('class_sechedule_master')
+
+            ->join('class_master', 'class_master.class_id', '=', 'class_sechedule_master.classsechedule_name')
+            ->join('instuctor_master', 'instuctor_master.instructorid', '=', 'class_sechedule_master.instructor')
+            ->select('class_sechedule_master.*', 'class_master.class_name as classname', 'instuctor_master.instructor_name')
+            ->whereDate('class_sechedule_master.class_schedule', $date1)
+            ->get();
+
+        $cnt3 = count($data3);
+        if ($cnt3 > 0) {
+
+            foreach ($data3 as $val3) {
+                $message = 'You attended this class,' . $val3->classname . ',' . $val3->class_schedule . ',' . $val3->instructor_name . 'Please Rate Us';
+                $bookings = DB::table('booking_table')
+                    ->select('booking_table.*')
+                    ->where('booking_table.class_schedule_id', $val3->classsechedule_id)
+                    ->where('booking_table.is_cancelled', 1)
+                    ->where('booking_table.rating_points', -1)
+                    ->get();
+                $cntb3 = count($bookings);
+                if ($cntb3 > 0) {
+                    foreach ($bookings as $value) {
+                        $data_notification = array(
+                            'notification_msg' => $message,
+                            'link_ref_id' => $value->link_id,
+                            'msg_type' => 4,
+                            'created_at' => $date,
+                            'updated_at' => $date,
+
+                        );
+
+                        $result =  DB::table('member_notification')
+                            ->Insert($data_notification);
+                    }
+                }
+            }
+        }
+
+
+
+
+        return response()->json(['status' => 1, 'message' => "Reminder Sent Succcessfully"]);
     }
 }
