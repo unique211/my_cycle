@@ -47,7 +47,6 @@ $(document).ready(function() {
         var classid = $('#class').val();
 
 
-
         var tdateAr = from.split('/');
         from = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
 
