@@ -312,5 +312,5 @@
                 off: '@lang('site_lables.Inactive')'
                 });
 </script>
-<script type='text/javascript' src="{{ URL::asset('/resources/js/myjs/classschedule.js',true) }}"></script>
+<script type='text/javascript' src="{{ URL::asset('/resources/js/myjs/classschedule.js') }}"></script>
 </html>

@@ -466,6 +466,7 @@ class GalleryController extends Controller
             $result[] = array(
                 'n_id' => $val->n_id,
                 'notification_msg' => $val->notification_msg,
+                'msg_type' => $val->msg_type,
             );
         }
 

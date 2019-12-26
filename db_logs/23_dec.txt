@@ -1,0 +1,8 @@
+CREATE TABLE gallary_liked_master (
+ id int(11) NOT NULL AUTO_INCREMENT,
+ link_id int(11) NOT NULL,
+ post_id int(11) NOT NULL,
+ add_date datetime NOT NULL,
+ PRIMARY KEY (`id`)
+)
+
