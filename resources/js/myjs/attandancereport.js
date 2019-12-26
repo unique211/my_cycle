@@ -31,12 +31,6 @@ $(document).ready(function() {
 
 
 
-
-
-
-
-
-
     //for submite of from inserting or updating Recored  --------Start
     $(document).on('submit', '#master_form', function(e) {
         e.preventDefault();
