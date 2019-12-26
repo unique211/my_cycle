@@ -120,3 +120,5 @@ Route::middleware(['basicAuth'])->group(function () {
     Route::post('email_api', 'ClassScheduleController@email_api');
 });
 Route::post('send_reminder', 'ClassScheduleController@send_reminder');
+
+//Route::get('firebase', 'FirebaseController@index');

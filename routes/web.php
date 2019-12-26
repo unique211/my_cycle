@@ -29,7 +29,8 @@ Route::get('/logout', function (Request $request) {
 
 Route::post('login_check', 'LoginController@check_login');
 
-
+Route::get('firebase', 'FirebaseController@index');
+Route::get('sendNotification', 'FirebaseController@sendNotification');
 
 Route::group(['middleware' => 'prevent-back-history'], function () {
     Auth::routes();
@@ -65,6 +66,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
     Route::resource('attendence_rating', 'AttendenceRatingController');
 
+    Route::resource('inquiry', 'InquiryController');
+    Route::get('get_all_inquiry', 'InquiryController@get_all_inquiry');
+
     Route::resource('mobile_notification', 'MobileNotificationController');
     Route::get('get_all_members', 'MobileNotificationController@get_all_members');
     Route::get('get_all_notifications', 'MobileNotificationController@get_all_notifications');
@@ -73,6 +77,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
     Route::resource('member_attendence_taking', 'MemberAttendenceTakingController');
     Route::resource('profile_manager', 'ProfileManagerController');
+
 
     //for Pachage Master--Strat
     Route::resource('package', 'PackageController');
@@ -201,5 +206,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::get('getallattebdance', 'MemberController@getallattebdance');
 
     //for attandancereport
-Route::post('getattandancedata', 'AttendenceRatingController@getattandancedata');
+    Route::post('getattandancedata', 'AttendenceRatingController@getattandancedata');
+
+
 });
+
