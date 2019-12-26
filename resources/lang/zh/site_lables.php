@@ -258,4 +258,8 @@ return [
 
     'Number_of_Members'=>'会员人数',
     'Upcoming_Booking_Details'=>'即将到来的预订详细信息',
+
+    'Inquiry'=>'查询',
+    'Subject'=>'学科',
+    'Message'=>'信息',
 ];

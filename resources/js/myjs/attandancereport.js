@@ -31,12 +31,6 @@ $(document).ready(function() {
 
 
 
-
-
-
-
-
-
     //for submite of from inserting or updating Recored  --------Start
     $(document).on('submit', '#master_form', function(e) {
         e.preventDefault();
@@ -45,7 +39,6 @@ $(document).ready(function() {
         var to = $('#to').val();
         var instructorid = $('#instructorid').val();
         var classid = $('#class').val();
-
 
 
         var tdateAr = from.split('/');

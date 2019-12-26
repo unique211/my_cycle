@@ -262,5 +262,9 @@ return [
     'Number_of_Members'=>'Number of Members',
     'Upcoming_Booking_Details'=>'Upcoming Booking Details',
 
+    'Inquiry'=>'Inquiry',
+    'Subject'=>'Subject',
+    'Message'=>'Message',
+
 
 ];

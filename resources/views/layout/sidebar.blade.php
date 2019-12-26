@@ -236,6 +236,7 @@
                 <?php $report=1; ?>
 
                 @endif
+
                 @endforeach
                 @if($setting==1)
                 <li class="openable">
@@ -301,11 +302,30 @@
                 @if($val->submenuid==7)
                 <li><a href="{{ url('attendence_rating') }}"><span class="submenu-label"><i
                                 class="fa fa-plus fa-lg"></i> @lang('site_lables.Attendence_&_Rating')</span></a></li>
-                                @endif
-                                @endforeach
+                @endif
+                @endforeach
             </ul>
             </li>
             @endif
+            @foreach($sidebar as $val)
+            @if($val->menuid==15)
+
+            <li>
+                <a href="{{ url('inquiry') }}">
+                    <span class="menu-icon">
+                        <i class="fa fa-plus fa-lg"></i>
+                    </span>
+                    <span class="text">
+                        @lang('site_lables.Inquiry')
+                    </span>
+                    <span class="menu-hover"></span>
+                </a>
+            </li>
+
+            @endif
+            @endforeach
+
+
             @endif
             </ul>
 
