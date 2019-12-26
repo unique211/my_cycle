@@ -9,6 +9,11 @@ use Validator;
 use App\Logmodel;
 use Session;
 
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
+
 class MobileNotificationController extends Controller
 {
     public function index(Request $request)
@@ -92,18 +97,67 @@ class MobileNotificationController extends Controller
                 'notification_msg' => $request->notification_text,
                 'link_ref_id' => $value,
                 'created_at' => $date,
-            'updated_at' => $date,
+                'updated_at' => $date,
 
             );
 
-
-
-                $result =  DB::table('member_notification')
-                    ->Insert($data_notification);
-
+            $result =  DB::table('member_notification')
+                ->Insert($data_notification);
 
 
 
+            $message = $request->notification_text;
+            $check_token = DB::table('link_relation_ship')
+                ->select('link_relation_ship.*')
+                ->where('status', 1)
+                ->where('linkrelid', $value)
+                ->get();
+            $cnt = count($check_token);
+
+            if ($cnt > 0) {
+                $firebase = "";
+                foreach ($check_token as $val) {
+                    $firebase = $val->firebase_token;
+                }
+
+                if($firebase !=""){
+                    $optionBuilder = new OptionsBuilder();
+                    $optionBuilder->setTimeToLive(60 * 20);
+
+                    $notificationBuilder = new PayloadNotificationBuilder('my title');
+                    $notificationBuilder->setBody($message)
+                        ->setSound('default');
+
+                    $dataBuilder = new PayloadDataBuilder();
+                    $dataBuilder->addData(['a_data' => 'my_data']);
+
+                    $option = $optionBuilder->build();
+                    $notification = $notificationBuilder->build();
+                    $data = $dataBuilder->build();
+
+                    $token = $firebase;
+
+                    $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+
+                    $downstreamResponse->numberSuccess();
+                    $downstreamResponse->numberFailure();
+                    $downstreamResponse->numberModification();
+
+                    // return Array - you must remove all this tokens in your database
+                    $downstreamResponse->tokensToDelete();
+
+                    // return Array (key : oldToken, value : new token - you must change the token in your database)
+                    $downstreamResponse->tokensToModify();
+
+                    // return Array - you should try to resend the message to the tokens in the array
+                    $downstreamResponse->tokensToRetry();
+
+                    // return Array (key:token, value:error) - in production you should remove from your database the tokens
+                    $downstreamResponse->tokensWithError();
+                }
+
+            }
         }
 
 

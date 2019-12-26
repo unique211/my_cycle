@@ -10,6 +10,11 @@ use Session;
 use Validator;
 use Illuminate\Support\Facades\DB;
 
+use LaravelFCM\Message\OptionsBuilder;
+use LaravelFCM\Message\PayloadDataBuilder;
+use LaravelFCM\Message\PayloadNotificationBuilder;
+use FCM;
+
 class ClassScheduleController extends Controller
 {
     public function index(Request $request)
@@ -177,6 +182,59 @@ class ClassScheduleController extends Controller
 
                             $result =  DB::table('member_notification')
                                 ->Insert($data_notification);
+
+
+
+                            $check_token = DB::table('link_relation_ship')
+                                ->select('link_relation_ship.*')
+                                ->where('status', 1)
+                                ->where('linkrelid', $value->link_id)
+                                ->get();
+                            $cnt = count($check_token);
+
+                            if ($cnt > 0) {
+                                $firebase = "";
+                                foreach ($check_token as $val) {
+                                    $firebase = $val->firebase_token;
+                                }
+
+                                if ($firebase != "") {
+                                    $optionBuilder = new OptionsBuilder();
+                                    $optionBuilder->setTimeToLive(60 * 20);
+
+                                    $notificationBuilder = new PayloadNotificationBuilder('my title');
+                                    $notificationBuilder->setBody($message)
+                                        ->setSound('default');
+
+                                    $dataBuilder = new PayloadDataBuilder();
+                                    $dataBuilder->addData(['a_data' => 'my_data']);
+
+                                    $option = $optionBuilder->build();
+                                    $notification = $notificationBuilder->build();
+                                    $data = $dataBuilder->build();
+
+                                    $token = $firebase;
+
+                                    $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+
+                                    $downstreamResponse->numberSuccess();
+                                    $downstreamResponse->numberFailure();
+                                    $downstreamResponse->numberModification();
+
+                                    // return Array - you must remove all this tokens in your database
+                                    $downstreamResponse->tokensToDelete();
+
+                                    // return Array (key : oldToken, value : new token - you must change the token in your database)
+                                    $downstreamResponse->tokensToModify();
+
+                                    // return Array - you should try to resend the message to the tokens in the array
+                                    $downstreamResponse->tokensToRetry();
+
+                                    // return Array (key:token, value:error) - in production you should remove from your database the tokens
+                                    $downstreamResponse->tokensWithError();
+                                }
+                            }
                         }
                     }
                 } else {
@@ -347,6 +405,57 @@ class ClassScheduleController extends Controller
 
                 $result =  DB::table('member_notification')
                     ->Insert($data_notification);
+
+                    $check_token = DB::table('link_relation_ship')
+                    ->select('link_relation_ship.*')
+                    ->where('status', 1)
+                    ->where('linkrelid', $value->link_id)
+                    ->get();
+                $cnt = count($check_token);
+
+                if ($cnt > 0) {
+                    $firebase = "";
+                    foreach ($check_token as $val) {
+                        $firebase = $val->firebase_token;
+                    }
+
+                    if ($firebase != "") {
+                        $optionBuilder = new OptionsBuilder();
+                        $optionBuilder->setTimeToLive(60 * 20);
+
+                        $notificationBuilder = new PayloadNotificationBuilder('my title');
+                        $notificationBuilder->setBody($message)
+                            ->setSound('default');
+
+                        $dataBuilder = new PayloadDataBuilder();
+                        $dataBuilder->addData(['a_data' => 'my_data']);
+
+                        $option = $optionBuilder->build();
+                        $notification = $notificationBuilder->build();
+                        $data = $dataBuilder->build();
+
+                        $token = $firebase;
+
+                        $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+
+                        $downstreamResponse->numberSuccess();
+                        $downstreamResponse->numberFailure();
+                        $downstreamResponse->numberModification();
+
+                        // return Array - you must remove all this tokens in your database
+                        $downstreamResponse->tokensToDelete();
+
+                        // return Array (key : oldToken, value : new token - you must change the token in your database)
+                        $downstreamResponse->tokensToModify();
+
+                        // return Array - you should try to resend the message to the tokens in the array
+                        $downstreamResponse->tokensToRetry();
+
+                        // return Array (key:token, value:error) - in production you should remove from your database the tokens
+                        $downstreamResponse->tokensWithError();
+                    }
+                }
             }
         }
 
@@ -555,6 +664,57 @@ class ClassScheduleController extends Controller
 
                 $result =  DB::table('member_notification')
                     ->Insert($data_notification);
+
+                    $check_token = DB::table('link_relation_ship')
+                    ->select('link_relation_ship.*')
+                    ->where('status', 1)
+                    ->where('linkrelid', $value->link_id)
+                    ->get();
+                $cnt = count($check_token);
+
+                if ($cnt > 0) {
+                    $firebase = "";
+                    foreach ($check_token as $val) {
+                        $firebase = $val->firebase_token;
+                    }
+
+                    if ($firebase != "") {
+                        $optionBuilder = new OptionsBuilder();
+                        $optionBuilder->setTimeToLive(60 * 20);
+
+                        $notificationBuilder = new PayloadNotificationBuilder('my title');
+                        $notificationBuilder->setBody($message)
+                            ->setSound('default');
+
+                        $dataBuilder = new PayloadDataBuilder();
+                        $dataBuilder->addData(['a_data' => 'my_data']);
+
+                        $option = $optionBuilder->build();
+                        $notification = $notificationBuilder->build();
+                        $data = $dataBuilder->build();
+
+                        $token = $firebase;
+
+                        $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+
+                        $downstreamResponse->numberSuccess();
+                        $downstreamResponse->numberFailure();
+                        $downstreamResponse->numberModification();
+
+                        // return Array - you must remove all this tokens in your database
+                        $downstreamResponse->tokensToDelete();
+
+                        // return Array (key : oldToken, value : new token - you must change the token in your database)
+                        $downstreamResponse->tokensToModify();
+
+                        // return Array - you should try to resend the message to the tokens in the array
+                        $downstreamResponse->tokensToRetry();
+
+                        // return Array (key:token, value:error) - in production you should remove from your database the tokens
+                        $downstreamResponse->tokensWithError();
+                    }
+                }
             }
         }
 
@@ -1011,6 +1171,61 @@ class ClassScheduleController extends Controller
 
                         $result =  DB::table('member_notification')
                             ->Insert($data_notification);
+
+
+
+
+
+                        $check_token = DB::table('link_relation_ship')
+                            ->select('link_relation_ship.*')
+                            ->where('status', 1)
+                            ->where('linkrelid', $value->link_id)
+                            ->get();
+                        $cnt = count($check_token);
+
+                        if ($cnt > 0) {
+                            $firebase = "";
+                            foreach ($check_token as $val) {
+                                $firebase = $val->firebase_token;
+                            }
+
+                            if ($firebase != "") {
+                                $optionBuilder = new OptionsBuilder();
+                                $optionBuilder->setTimeToLive(60 * 20);
+
+                                $notificationBuilder = new PayloadNotificationBuilder('my title');
+                                $notificationBuilder->setBody($message)
+                                    ->setSound('default');
+
+                                $dataBuilder = new PayloadDataBuilder();
+                                $dataBuilder->addData(['a_data' => 'my_data']);
+
+                                $option = $optionBuilder->build();
+                                $notification = $notificationBuilder->build();
+                                $data = $dataBuilder->build();
+
+                                $token = $firebase;
+
+                                $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+
+                                $downstreamResponse->numberSuccess();
+                                $downstreamResponse->numberFailure();
+                                $downstreamResponse->numberModification();
+
+                                // return Array - you must remove all this tokens in your database
+                                $downstreamResponse->tokensToDelete();
+
+                                // return Array (key : oldToken, value : new token - you must change the token in your database)
+                                $downstreamResponse->tokensToModify();
+
+                                // return Array - you should try to resend the message to the tokens in the array
+                                $downstreamResponse->tokensToRetry();
+
+                                // return Array (key:token, value:error) - in production you should remove from your database the tokens
+                                $downstreamResponse->tokensWithError();
+                            }
+                        }
                     }
                 }
             }
@@ -1054,6 +1269,59 @@ class ClassScheduleController extends Controller
 
                         $result =  DB::table('member_notification')
                             ->Insert($data_notification);
+
+
+
+                        $check_token = DB::table('link_relation_ship')
+                            ->select('link_relation_ship.*')
+                            ->where('status', 1)
+                            ->where('linkrelid', $value->link_id)
+                            ->get();
+                        $cnt = count($check_token);
+
+                        if ($cnt > 0) {
+                            $firebase = "";
+                            foreach ($check_token as $val) {
+                                $firebase = $val->firebase_token;
+                            }
+
+                            if ($firebase != "") {
+                                $optionBuilder = new OptionsBuilder();
+                                $optionBuilder->setTimeToLive(60 * 20);
+
+                                $notificationBuilder = new PayloadNotificationBuilder('my title');
+                                $notificationBuilder->setBody($message)
+                                    ->setSound('default');
+
+                                $dataBuilder = new PayloadDataBuilder();
+                                $dataBuilder->addData(['a_data' => 'my_data']);
+
+                                $option = $optionBuilder->build();
+                                $notification = $notificationBuilder->build();
+                                $data = $dataBuilder->build();
+
+                                $token = $firebase;
+
+                                $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+
+                                $downstreamResponse->numberSuccess();
+                                $downstreamResponse->numberFailure();
+                                $downstreamResponse->numberModification();
+
+                                // return Array - you must remove all this tokens in your database
+                                $downstreamResponse->tokensToDelete();
+
+                                // return Array (key : oldToken, value : new token - you must change the token in your database)
+                                $downstreamResponse->tokensToModify();
+
+                                // return Array - you should try to resend the message to the tokens in the array
+                                $downstreamResponse->tokensToRetry();
+
+                                // return Array (key:token, value:error) - in production you should remove from your database the tokens
+                                $downstreamResponse->tokensWithError();
+                            }
+                        }
                     }
                 }
             }
@@ -1072,7 +1340,7 @@ class ClassScheduleController extends Controller
         if ($cnt3 > 0) {
 
             foreach ($data3 as $val3) {
-                $message = 'You attended this class,' . $val3->classname . ',' . $val3->class_schedule . ',' . $val3->instructor_name . 'Please Rate Us';
+                $message = 'You attended this class,' . $val3->classname . ',' . $val3->class_schedule . ',' . $val3->instructor_name . ' Please Rate Us';
                 $bookings = DB::table('booking_table')
                     ->select('booking_table.*')
                     ->where('booking_table.class_schedule_id', $val3->classsechedule_id)
@@ -1093,6 +1361,59 @@ class ClassScheduleController extends Controller
 
                         $result =  DB::table('member_notification')
                             ->Insert($data_notification);
+
+
+
+                        $check_token = DB::table('link_relation_ship')
+                            ->select('link_relation_ship.*')
+                            ->where('status', 1)
+                            ->where('linkrelid', $value->link_id)
+                            ->get();
+                        $cnt = count($check_token);
+
+                        if ($cnt > 0) {
+                            $firebase = "";
+                            foreach ($check_token as $val) {
+                                $firebase = $val->firebase_token;
+                            }
+
+                            if ($firebase != "") {
+                                $optionBuilder = new OptionsBuilder();
+                                $optionBuilder->setTimeToLive(60 * 20);
+
+                                $notificationBuilder = new PayloadNotificationBuilder('my title');
+                                $notificationBuilder->setBody($message)
+                                    ->setSound('default');
+
+                                $dataBuilder = new PayloadDataBuilder();
+                                $dataBuilder->addData(['a_data' => 'my_data']);
+
+                                $option = $optionBuilder->build();
+                                $notification = $notificationBuilder->build();
+                                $data = $dataBuilder->build();
+
+                                $token = $firebase;
+
+                                $downstreamResponse = FCM::sendTo($token, $option, $notification, $data);
+
+
+                                $downstreamResponse->numberSuccess();
+                                $downstreamResponse->numberFailure();
+                                $downstreamResponse->numberModification();
+
+                                // return Array - you must remove all this tokens in your database
+                                $downstreamResponse->tokensToDelete();
+
+                                // return Array (key : oldToken, value : new token - you must change the token in your database)
+                                $downstreamResponse->tokensToModify();
+
+                                // return Array - you should try to resend the message to the tokens in the array
+                                $downstreamResponse->tokensToRetry();
+
+                                // return Array (key:token, value:error) - in production you should remove from your database the tokens
+                                $downstreamResponse->tokensWithError();
+                            }
+                        }
                     }
                 }
             }
