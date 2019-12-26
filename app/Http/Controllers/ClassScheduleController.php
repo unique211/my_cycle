@@ -933,6 +933,36 @@ class ClassScheduleController extends Controller
         return response()->json(['status' => 1, 'message' => "Data Inserted"]);
     }
 
+    public function guest_user_track_api(Request $request)
+    {
+
+
+
+        date_default_timezone_set('Asia/Kolkata');
+        $date = date("Y-m-d H:i:s");
+
+
+        $data = array(
+            'user_name' => $request->user_name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'fb_token' => $request->fb_token,
+            'device_id' => $request->device_id,
+            'created_at' => $date,
+            'updated_at' => $date,
+        );
+
+
+        $result =  DB::table('guest_user_track')
+            ->Insert($data);
+
+
+
+
+        return response()->json(['status' => 1, 'message' => "Data Inserted"]);
+    }
+
     public function send_reminder(Request $request)
     {
         $message = "";

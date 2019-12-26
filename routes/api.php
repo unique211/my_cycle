@@ -118,6 +118,9 @@ Route::middleware(['basicAuth'])->group(function () {
 
     //email_api
     Route::post('email_api', 'ClassScheduleController@email_api');
+
+    //guest_user_track_api
+    Route::post('guest_user_track_api', 'ClassScheduleController@guest_user_track_api');
 });
 Route::post('send_reminder', 'ClassScheduleController@send_reminder');
 

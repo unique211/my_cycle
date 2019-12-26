@@ -37,7 +37,7 @@ class Usermanagecontroller extends Controller
 
         $userid = $request->mobile_no;
         $password = $request->mac_address;
-        $firebase_token = $request->firebase_token;
+        $firebase_token = $request->token;
         $result = array();
 
 
