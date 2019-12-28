@@ -221,8 +221,12 @@ $(document).ready(function() {
 
                 var notification = "";
                 var notification_text = data[i].notification_text;
+
+                //   alert(notification_text);
                 if (notification_text.length > 105) {
                     notification = notification_text.substring(0, 100) + '.....';
+                } else {
+                    notification = notification_text;
                 }
 
 
@@ -231,9 +235,6 @@ $(document).ready(function() {
                     '<td id="classcategoryname_' + data[i].id + '">' + updated_at + '</td>' +
                     '<td id="classcategoryname_' + data[i].id + '">' + notification + '</td>' +
                     '<td id="categorydescription_' + data[i].id + '">' + data[i].count + '</td>';
-
-
-
 
 
 
