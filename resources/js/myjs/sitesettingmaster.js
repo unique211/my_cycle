@@ -100,12 +100,15 @@ $(document).ready(function() {
         $('#btnsave').text('Save');
         $('#status').bootstrapToggle('on');
         $("#upload").attr("required", true);
+        $("#upload2").attr("required", true);
 
 
 
         $('#site_name').val('');
         $('#uploadimg_hidden').val('');
         $('#msg').html('');
+        $('#uploadimg_hidden2').val('');
+        $('#msg2').html('');
         $('#email').val('');
         $('#profileimg').attr('src', imgurl + 'resources/sass/img/no-image-available.png');
 
@@ -118,8 +121,7 @@ $(document).ready(function() {
         $('#website').val('');
         $('#facebook').val('');
         $('#instagram').val('');
-        $('#firebase').val('');
-        $('#map').val('');
+
         $('#save_update').val('');
 
 
@@ -184,7 +186,7 @@ $(document).ready(function() {
                     '<td style="display:none;" id="website_' + data[i].sitesetting_id + '">' + data[i].website + '</td>' +
                     '<td style="display:none;" id="facebook_' + data[i].sitesetting_id + '">' + data[i].facebook + '</td>' +
                     '<td style="display:none;" id="instagram_' + data[i].sitesetting_id + '">' + data[i].instagram + '</td>' +
-                    '<td style="display:none;" id="firebase_' + data[i].sitesetting_id + '">' + data[i].firebase + '</td>' +
+
                     '<td style="display:none;" id="map_' + data[i].sitesetting_id + '">' + data[i].map + '</td>';
 
 
@@ -235,7 +237,7 @@ $(document).ready(function() {
         var website = $('#website_' + id).html();
         var facebook = $('#facebook_' + id).html();
         var instagram = $('#instagram_' + id).html();
-        var firebase = $('#firebase_' + id).html();
+
         var map = $('#map_' + id).html();
 
 
@@ -244,11 +246,18 @@ $(document).ready(function() {
         } else {
             $("#upload").removeAttr("required");
         }
+        if (map == "") {
+            $("#upload2").attr("required", true);
+        } else {
+            $("#upload2").removeAttr("required");
+        }
 
 
         $('#site_name').val(site_name);
         $('#uploadimg_hidden').val(sitelogo);
         $('#msg').html(sitelogo);
+        $('#uploadimg_hidden2').val(map);
+        $('#msg2').html(map);
         $('#email').val(site_email);
         $('#profileimg').attr('src', imgurl + '/uploads/' + sitelogo);
 
@@ -261,8 +270,8 @@ $(document).ready(function() {
         $('#website').val(website);
         $('#facebook').val(facebook);
         $('#instagram').val(instagram);
-        $('#firebase').val(firebase);
-        $('#map').val(map);
+
+
         $('#save_update').val(id);
         $('#statusinfo').val(status);
         $('#btnsave').text('Update');
@@ -465,6 +474,42 @@ $(document).ready(function() {
                 $('#uploadimg_hidden').val(data);
                 $('#profileimg').attr('src', imgurl + '/uploads/' + data);
                 $("#upload").removeAttr("required");
+
+            }
+        });
+    }
+
+
+    $('#upload2').change(function() {
+        var id = $(this).attr('id');
+
+
+
+
+        if ($(this).val() != '') {
+            upload(this, id);
+
+        }
+    });
+
+    function upload(img, id) {
+
+        var form_data = new FormData();
+        form_data.append('file', img.files[0]);
+
+        $.ajax({
+            url: uploadfileurl2,
+            data: form_data,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            success: function(data) {
+                //alert(data);
+
+
+                $('#msg2').html(data);
+                $('#uploadimg_hidden2').val(data);
+                $("#upload2").removeAttr("required");
 
             }
         });

@@ -105,14 +105,14 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label>@lang('site_lables.User_Id')*</label>
+                                                <label>@lang('site_lables.User_Id')</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <input type="text" class="form-control input-sm placeholdesize"
                                                     placeholder="@lang('site_lables.User_Id')" id="user_id"
-                                                    name="user_id" required>
+                                                    name="user_id"  disabled>
 
                                             </div>
                                         </div>

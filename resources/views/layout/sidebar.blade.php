@@ -22,14 +22,16 @@
             </div>
         </div>--}}
         {{-- /user-block --}}
-        <div class="search-block">
+        {{--  <div class="search-block">
             <div class="input-group">
                 <input type="text" class="form-control input-sm" placeholder="search here...">
                 <span class="input-group-btn">
                     <button class="btn btn-default btn-sm" type="button"><i class="fa fa-search"></i></button>
                 </span>
-            </div>{{-- /input-group --}}
-        </div>{{-- /search-block --}}
+            </div>
+        </div>  --}}
+
+        {{-- /search-block --}}
         <div class="main-menu">
             <ul>
 

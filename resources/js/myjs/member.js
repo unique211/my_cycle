@@ -122,11 +122,12 @@ $(document).ready(function() {
         var member_type = $("#member_type").val();
         $("#if_group").hide();
         $("#file_info_tbody2").html('');
-        if (member_type == "Group") {
-            $("#if_group").show();
+        if (member_type == "Individual") {
+
+            $("#if_group").hide();
 
         } else {
-            $("#if_group").hide();
+            $("#if_group").show();
 
 
         }
@@ -216,7 +217,7 @@ $(document).ready(function() {
                 async: false,
                 success: function(data) {
                     //
-                    alert(data);
+
 
                 },
                 error: function(data) {
@@ -332,6 +333,45 @@ $(document).ready(function() {
         });
     }
 
+
+
+
+    //for get all member type
+    get_member_type();
+
+    function get_member_type() {
+
+        $.ajax({
+            url: "getallmemberttype",
+            type: "GET",
+
+            contentType: false,
+            cache: false,
+            processData: false,
+            dataType: "json",
+            success: function(data) {
+
+                var html = '';
+                var name = '';
+
+                html += '<option selected  value="Individual" >Individual</option>';
+
+                for (i = 0; i < data.length; i++) {
+                    var id = '';
+
+                    name = data[i].member_type;
+                    id = data[i].membertype_id;
+
+
+
+                    html += '<option value="' + id + '">' + name + '</option>';
+                }
+                $('#member_type').html(html);
+
+            }
+        });
+    }
+
     //get package point
     $(document).on('change', '#package', function(e) {
         e.preventDefault();
@@ -389,6 +429,7 @@ $(document).ready(function() {
                     '<td id="icno_' + data[i].member_id + '">' + data[i].icno + '</td>' +
                     '<td id="packagename_' + data[i].member_id + '">' + data[i].packagename + '</td>' +
                     '<td id="membertype_' + data[i].member_id + '">' + data[i].membertype + '</td>' +
+                    '<td style="display:none;" id="membertype_id_' + data[i].member_id + '">' + data[i].membertype_id + '</td>' +
                     '<td id="doe_' + data[i].member_id + '">' + doe + '</td>' +
                     '<td id="membercount_' + data[i].member_id + '">' + data[i].membercount + '</td>' +
 
@@ -556,7 +597,7 @@ $(document).ready(function() {
         var userid = $('#userid_' + id).html();
         var membername = $('#membername_' + id).html();
         var icno = $('#icno_' + id).html();
-        var membertype = $('#membertype_' + id).html();
+        var membertype = $('#membertype_id_' + id).html();
         var doe = $('#doe_' + id).html();
         var dob_ = $('#dob_' + id).html();
         var address_ = $('#address_' + id).html();
@@ -571,6 +612,12 @@ $(document).ready(function() {
         if (dob_ != "") {
             var tdateAr = dob_.split('-');
             dob_ = tdateAr[2] + '/' + tdateAr[1] + '/' + tdateAr[0];
+        }
+
+        if (membertype == 0) {
+            $('#member_type').val('Individual').trigger('change');
+        } else {
+            $('#member_type').val(membertype).trigger('change');
         }
 
         $('#user_id').val(userid);
@@ -589,7 +636,7 @@ $(document).ready(function() {
 
         $('#bal_point').val(balancepoint_);
 
-        $('#member_type').val(membertype).trigger('change');
+
 
 
         if (image_url_ == "") {

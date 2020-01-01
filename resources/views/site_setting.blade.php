@@ -181,27 +181,22 @@
                                                 </div>
                                             </div>
                                             <div class="row form-group">
+
                                                 <div class="col-sm-2">
 
-                                                    <label>@lang('site_lables.Firebase')*</label>
+                                                    <label>@lang('site_lables.Map_image')*</label>
 
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <input type="text" class="form-control input-sm placeholdesize"
-                                                        placeholder="@lang('site_lables.Firebase')" id="firebase"
-                                                        name="firebase" required>
 
+
+                                                    <input type="file" id="upload2" name="upload2" class="form-control"
+                                                        accept="image/*" required>
+                                                    <input type="hidden" id="uploadimg_hidden2" name="uploadimg_hidden2"
+                                                        value="">
+                                                    <div id="msg2" name="msg2"></div>
                                                 </div>
-                                                <div class="col-sm-2">
 
-                                                    <label>@lang('site_lables.Map')</label>
-
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <input type="text" class="form-control input-sm placeholdesize"
-                                                        placeholder="@lang('site_lables.Map')" id="map" name="map">
-
-                                                </div>
                                             </div>
                                         </div>
 
@@ -255,7 +250,7 @@
                                                 <th  style="display:none;"><font style="font-weight:bold;display:none;">@lang('site_lables.Website')</font></th>
                                                 <th  style="display:none;"><font style="font-weight:bold;display:none;">@lang('site_lables.Facebook')</font></th>
                                                 <th  style="display:none;"><font style="font-weight:bold;display:none;">@lang('site_lables.Instagram')</font></th>
-                                                <th  style="display:none;"><font style="font-weight:bold;display:none;">@lang('site_lables.Firebase')</font></th>
+
                                                 <th  style="display:none;"><font style="font-weight:bold;display:none;">@lang('site_lables.Map')</font></th>
                                                 <th class="not-export-column"><font style="font-weight:bold">@lang('site_lables.Action')</font>   </th>
 
@@ -325,6 +320,7 @@
     var delete_data="{{ url('deletesitesetting') }}";
     var changestatus="{{ url('roomchangestatus') }}";
     var uploadfileurl="{{ url('instrucoruploadimg') }}";
+    var uploadfileurl2="{{ url('site_map_image_upload') }}";
     var imgurl="<?php  echo url('/') ?>";
     $("#data_table").DataTable();
 </script>

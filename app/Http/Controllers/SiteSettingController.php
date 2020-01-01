@@ -10,6 +10,7 @@ use Redirect, Response;
 use App\Logmodel;
 use Validator;
 use Session;
+
 class SiteSettingController extends Controller
 {
     public function index(Request $request)
@@ -31,11 +32,10 @@ class SiteSettingController extends Controller
             } else {
                 $data['sidebar'] = null;
             }
-            return view('site_setting',$data);
+            return view('site_setting', $data);
         }
-
     }
-    public function store(Request $request)//For insert or Update Record Of Package Master --
+    public function store(Request $request) //For insert or Update Record Of Package Master --
     {
 
         $user_id = Session::get('login_id');
@@ -47,78 +47,31 @@ class SiteSettingController extends Controller
         $validator = Validator::make($input, [
             'site_name' => 'required',
             'uploadimg_hidden' => 'required',
-            'email'=>'required',
-            'tel_no'=>'required',
-            'website'=>'required',
-            'facebook'=>'required',
-            'instagram'=>'required',
-            'firebase'=>'required',
-           // 'map'=>'required',
+            'email' => 'required',
+            'tel_no' => 'required',
+            'website' => 'required',
+            'facebook' => 'required',
+            'instagram' => 'required',
 
-            ]);
+             'uploadimg_hidden2'=>'required',
 
-            if($validator->fails()){
+        ]);
 
-                return response()->json('less Arguments OR Package Name Already Exists ');
-            }else{
-                if($packege_id >0){
-                    $data= DB::table('sitesetting_master')->where('site_name',$request->site_name)->where('sitesetting_id','!=',$packege_id)->get();
-                    $count=count($data);
-                    if($count >0){
-                        return response()->json('100');
-                    }else{
-                        $data1= DB::table('sitesetting_master')->where('site_email',$request->email)->where('sitesetting_id','!=',$packege_id)->get();
-                        $count1=count($data1);
-                        if($count >0){
-                            return response()->json('101');
-                        }else{
-                            $package   =   Sitesettingmodel::updateOrCreate(
-                                ['sitesetting_id' => $packege_id],
-                                [
-                                    'site_name'       =>   $request->site_name,
-                                    'site_logo'        =>   $request->uploadimg_hidden,
-                                    'site_email'        =>   $request->email,
-                                    'site_about_details1' =>   $request->about_us,
-                                    'site_about_details2'  =>   $request->about_us_c,
-                                    'site_contact_detalis1'        =>   $request->contact_us,
-                                    'site_contact_detalis2'        =>   $request->contact_us_c,
+        if ($validator->fails()) {
 
-                                    'telephone_no'        =>   $request->tel_no,
-                                    'website'        =>   $request->website,
-                                    'facebook'=>$request->facebook,
-                                    'instagram'=>$request->instagram,
-                                    'firebase'=>$request->firebase,
-                                    'map'=>$request->map,
-                                    'user_id'=>$user_id,
-
-
-                                ]
-
-                            );
-
-
-                                $Logmodel = new Logmodel;
-
-                                $Logmodel->module_name ='Site Setting Module' ;
-                                $Logmodel->operation_name ='Edit';
-                                $Logmodel->reference_id = $packege_id;
-                                $Logmodel->table_name = 'sitesetting_master';
-                                $Logmodel->user_id = $user_id;
-                                $Logmodel->save();
-                                return Response::json($package);
-                    }
-                }
-            }else{
-                $data= DB::table('sitesetting_master')->where('site_name',$request->site_name)->get();
-                $count=count($data);
-                if($count >0){
+            return response()->json('less Arguments OR Package Name Already Exists ');
+        } else {
+            if ($packege_id > 0) {
+                $data = DB::table('sitesetting_master')->where('site_name', $request->site_name)->where('sitesetting_id', '!=', $packege_id)->get();
+                $count = count($data);
+                if ($count > 0) {
                     return response()->json('100');
-                }else{
-                    $data1= DB::table('sitesetting_master')->where('site_email',$request->email)->get();
-                    $count1=count($data1);
-                    if($count >0){
+                } else {
+                    $data1 = DB::table('sitesetting_master')->where('site_email', $request->email)->where('sitesetting_id', '!=', $packege_id)->get();
+                    $count1 = count($data1);
+                    if ($count > 0) {
                         return response()->json('101');
-                    }else{
+                    } else {
                         $package   =   Sitesettingmodel::updateOrCreate(
                             ['sitesetting_id' => $packege_id],
                             [
@@ -132,11 +85,10 @@ class SiteSettingController extends Controller
 
                                 'telephone_no'        =>   $request->tel_no,
                                 'website'        =>   $request->website,
-                                'facebook'=>$request->facebook,
-                                'instagram'=>$request->instagram,
-                                'firebase'=>$request->firebase,
-                                'map'=>$request->map,
-                                'user_id'=>$user_id,
+                                'facebook' => $request->facebook,
+                                'instagram' => $request->instagram,
+                                'map' => $request->uploadimg_hidden2,
+                                'user_id' => $user_id,
 
 
                             ]
@@ -144,42 +96,107 @@ class SiteSettingController extends Controller
                         );
 
 
-                            $Logmodel = new Logmodel;
+                        $Logmodel = new Logmodel;
 
-                            $Logmodel->module_name ='Site Setting Module' ;
-                            $Logmodel->operation_name ='Insert';
-                            $Logmodel->reference_id = $package->sitesetting_id;
-                            $Logmodel->table_name = 'sitesetting_master';
-                            $Logmodel->user_id = $user_id;
-                            $Logmodel->save();
-                            return Response::json($package);
+                        $Logmodel->module_name = 'Site Setting Module';
+                        $Logmodel->operation_name = 'Edit';
+                        $Logmodel->reference_id = $packege_id;
+                        $Logmodel->table_name = 'sitesetting_master';
+                        $Logmodel->user_id = $user_id;
+                        $Logmodel->save();
+                        return Response::json($package);
+                    }
                 }
-            }
+            } else {
+                $data = DB::table('sitesetting_master')->where('site_name', $request->site_name)->get();
+                $count = count($data);
+                if ($count > 0) {
+                    return response()->json('100');
+                } else {
+                    $data1 = DB::table('sitesetting_master')->where('site_email', $request->email)->get();
+                    $count1 = count($data1);
+                    if ($count > 0) {
+                        return response()->json('101');
+                    } else {
+                        $package   =   Sitesettingmodel::updateOrCreate(
+                            ['sitesetting_id' => $packege_id],
+                            [
+                                'site_name'       =>   $request->site_name,
+                                'site_logo'        =>   $request->uploadimg_hidden,
+                                'site_email'        =>   $request->email,
+                                'site_about_details1' =>   $request->about_us,
+                                'site_about_details2'  =>   $request->about_us_c,
+                                'site_contact_detalis1'        =>   $request->contact_us,
+                                'site_contact_detalis2'        =>   $request->contact_us_c,
+
+                                'telephone_no'        =>   $request->tel_no,
+                                'website'        =>   $request->website,
+                                'facebook' => $request->facebook,
+                                'instagram' => $request->instagram,
+                                'map' => $request->uploadimg_hidden2,
+                                'user_id' => $user_id,
+
+
+                            ]
+
+                        );
+
+
+                        $Logmodel = new Logmodel;
+
+                        $Logmodel->module_name = 'Site Setting Module';
+                        $Logmodel->operation_name = 'Insert';
+                        $Logmodel->reference_id = $package->sitesetting_id;
+                        $Logmodel->table_name = 'sitesetting_master';
+                        $Logmodel->user_id = $user_id;
+                        $Logmodel->save();
+                        return Response::json($package);
+                    }
+                }
             }
         }
     }
-    public function getallsitesettinginfo(){
+    public function getallsitesettinginfo()
+    {
 
-        $sitesetting= DB::table('sitesetting_master')->get();
+        $sitesetting = DB::table('sitesetting_master')->get();
 
         return Response::json($sitesetting);
     }
-    public function deletesitesetting($id){
- $Logmodel = new Logmodel;
- $user_id = Session::get('login_id');
-    $Logmodel->module_name ='Site Setting Module' ;
-    $Logmodel->operation_name ='Delete';
-    $Logmodel->reference_id = $id;
-    $Logmodel->table_name = 'sitesetting_master';
-    $Logmodel->user_id = $user_id;
-    $Logmodel->save();
-    $customer = Sitesettingmodel::where('sitesetting_id', $id)->delete();
-    return response()->json( $customer);
+    public function deletesitesetting($id)
+    {
+        $Logmodel = new Logmodel;
+        $user_id = Session::get('login_id');
+        $Logmodel->module_name = 'Site Setting Module';
+        $Logmodel->operation_name = 'Delete';
+        $Logmodel->reference_id = $id;
+        $Logmodel->table_name = 'sitesetting_master';
+        $Logmodel->user_id = $user_id;
+        $Logmodel->save();
+        $customer = Sitesettingmodel::where('sitesetting_id', $id)->delete();
+        return response()->json($customer);
     }
 
-    public function get_site_settings_api(){
+    public function site_map_image_upload(Request $request)
+    {
 
-        $data= DB::table('sitesetting_master')->get();
+
+        $extension = $request->file('file')->getClientOriginalExtension();
+
+        $dir = 'uploads/site_map_image/';
+        $filename = uniqid() . '_' . time() . '.' . $extension;
+
+        // echo  dd($filename);
+        $request->file('file')->move($dir, $filename);
+
+
+        return $filename;
+    }
+
+    public function get_site_settings_api()
+    {
+
+        $data = DB::table('sitesetting_master')->get();
         $result = array();
 
 
@@ -199,7 +216,6 @@ class SiteSettingController extends Controller
                 'website' =>  $val->website,
                 'facebook' =>  $val->facebook,
                 'instagram' =>  $val->instagram,
-                'firebase' =>  $val->firebase,
                 'map' =>  $val->map,
 
 

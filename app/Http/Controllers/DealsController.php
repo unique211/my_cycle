@@ -407,7 +407,7 @@ class DealsController extends Controller
         $data = DB::table('deal_master')
             ->select('deal_master.*')
             ->where('start_date', '<=', $date)
-            ->where('end_date', '>=', $to)
+            ->where('end_date', '>=', $date)
             ->get();
         $result = array();
 
