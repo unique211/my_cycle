@@ -32,7 +32,7 @@ class MemberController extends Controller
             } else {
                 $data['sidebar'] = null;
             }
-            return view('member',$data);
+            return view('member', $data);
         }
     }
 
@@ -200,6 +200,23 @@ class MemberController extends Controller
                     $packagename = $packagedata->package_name;
                 }
 
+                $membertype_id=0;
+                if ($membertype == "Individual") {
+                    $membertype = $membertype;
+                } else {
+                    $customer3 =  DB::table('membertype_master')->where('membertype_id', $membertype)->get();
+                    $count3 = count($customer3);
+
+                    foreach ($customer3 as $member) {
+                        $membertype = $member->member_type;
+                        $membertype_id=$member->membertype_id;
+                    }
+                }
+
+
+
+
+
                 $result[] = array(
                     'member_id' => $member_id,
                     'membername' => $membername,
@@ -209,6 +226,7 @@ class MemberController extends Controller
                     'email' => $email,
                     'currentpackage' => $currentpackage,
                     'membertype' => $membertype,
+                    'membertype_id' => $membertype_id,
                     'dateofexpire' => $dateofexpire,
                     'balancepoint' => $balancepoint,
                     'membercount' => $count1,
@@ -301,12 +319,8 @@ class MemberController extends Controller
                     'Instructor' => $val2->instructor_name,
                 );
             }
-
-
-
-
         }
-         //dd($result);
+        //dd($result);
         return Response::json($result);
     }
 }

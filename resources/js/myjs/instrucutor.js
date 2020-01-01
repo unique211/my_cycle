@@ -170,9 +170,10 @@ $(document).ready(function() {
         }
     });
 
+    //for set instroctor id into user id and checking id is availbale or not
+    $(document).on('blur', "#ins_id", function(e) {
+        var instructor_id = $("#ins_id").val();
 
-    $(document).on('blur', "#user_id", function(e) {
-        e.preventDefault();
         $("#submit_btn").attr("disabled", false);
         var user_id = $("#user_id").val();
         var save_update = $("#save_update").val();
@@ -182,16 +183,18 @@ $(document).ready(function() {
 
 
 
-            if (user_id != "") {
-                $.get('checkuserid/' + user_id, function(data) {
+            if (instructor_id != "") {
+                $.get('checkuserid/' + instructor_id, function(data) {
 
                     if (data == 0 || data == "0") {
 
-                        $("#user_id").val(user_id);
+                        $("#ins_id").val(instructor_id);
+                        $("#user_id").val(instructor_id);
                         $("#submit_btn").attr("disabled", false);
 
                     } else {
                         swal("User id Already Exists Please Enter Another User id");
+                        $("#ins_id").val('');
                         $("#user_id").val('');
                         $("#submit_btn").attr("disabled", true);
                     }
@@ -199,6 +202,16 @@ $(document).ready(function() {
 
             }
         }
+        $("#user_id").val(instructor_id);
+        //   alert(instructor_id);
+
+
+    });
+
+
+    $(document).on('blur', "#user_id", function(e) {
+        e.preventDefault();
+
 
     });
 
@@ -454,7 +467,7 @@ $(document).ready(function() {
         var instructor_telno = $('#instructor_telno_' + id).html();
         var instructor_img = $('#instructor_img' + id).html();
         var userid = $('#userid_' + id).html();
-        // alert(userid);
+
 
         $('#ins_id').val(instructor_id_);
         $('#name').val(instructor_name);

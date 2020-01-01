@@ -187,7 +187,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::resource('site_setting', 'SiteSettingController');
     Route::get('getallsitesettinginfo', 'SiteSettingController@getallsitesettinginfo');
     Route::get('deletesitesetting/{id}', 'SiteSettingController@deletesitesetting');
-
+    Route::match(['get', 'post'], 'site_map_image_upload', 'SiteSettingController@site_map_image_upload');
     //for Member
     Route::get('getdropdwnallpackage', 'MemberController@getdropdwnallpackage');
     Route::post('getpackagepoint', 'MemberController@getpackagepoint');

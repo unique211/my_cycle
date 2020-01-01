@@ -143,10 +143,8 @@
                                             <div class="form-group">
                                                 <select name="member_type" id="member_type"
                                                     class="form-control input-sm">
-                                                    <option value="" selected disabled>@lang('site_lables.Select')
-                                                    </option>
-                                                    <option value="Individual">@lang('site_lables.Individual')</option>
-                                                    <option value="Group">@lang('site_lables.Group')</option>
+
+
                                                 </select>
                                             </div>
                                         </div>
@@ -283,6 +281,7 @@
                                                 <th><font style="font-weight:bold"></font>@lang('site_lables.Ic_Number')</th>
                                                 <th><font style="font-weight:bold"></font>@lang('site_lables.Current_Package')</th>
                                                 <th><font style="font-weight:bold"></font>@lang('site_lables.Member_Type')</th>
+                                                <th style="display:none;"><font style="font-weight:bold"></font>Member type id</th>
                                                 <th><font style="font-weight:bold"></font>@lang('site_lables.Date_of_Expiry')</th>
                                                 <th><font style="font-weight:bold"></font>@lang('site_lables.Member_Count')</th>
                                                 <th style="display:none;"><font style="font-weight:bold"></font>Date of Birth</th>
