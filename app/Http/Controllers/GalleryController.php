@@ -333,7 +333,7 @@ class GalleryController extends Controller
 
         foreach ($data as $val) {
             $post_id = $val->gallary_id;
-            
+
             $video = "";
             $desc = "";
             $is_video = $val->is_video;
@@ -349,16 +349,16 @@ class GalleryController extends Controller
                 $desc = $description;
             }
             $isLiked = 0;
-             $data1 = DB::table('gallary_liked_master')
-            ->select('gallary_liked_master.*')
-            ->where('post_id', $post_id)
-            ->where('link_id', $link_id)
-            ->get();
-        $cnt1 = count($data1);
+            $data1 = DB::table('gallary_liked_master')
+                ->select('gallary_liked_master.*')
+                ->where('post_id', $post_id)
+                ->where('link_id', $link_id)
+                ->get();
+            $cnt1 = count($data1);
 
-        if ($cnt1 > 0) {
-            $isLiked = 1;
-        } 
+            if ($cnt1 > 0) {
+                $isLiked = 1;
+            }
             $result[] = array(
                 'user_name' => "",
                 'post_id' => $val->gallary_id,
@@ -368,7 +368,7 @@ class GalleryController extends Controller
                 'posting_date_time' => $val->created_at,
                 'likes_count' => $val->nooflike,
                 'is_allow_to_share' => $val->allowshare,
-                'is_liked'=>$isLiked,
+                'is_liked' => $isLiked,
 
             );
         }
@@ -390,7 +390,33 @@ class GalleryController extends Controller
         $cnt1 = count($data1);
 
         if ($cnt1 > 0) {
-            return response()->json(['status' => 0, 'message' => 'Already Liked']);
+
+
+            $data = DB::table('gallary_master')
+                ->select('gallary_master.*')
+                ->where('gallary_id', $post_id)
+                ->get();
+            $cnt = count($data);
+            if ($cnt > 0) {
+                foreach ($data as $val) {
+                    $total_likes = $val->nooflike;
+
+
+                    $minus = intval($total_likes) - 1;
+
+                    $set = array('nooflike' => $minus);
+
+                    DB::table('gallary_master')
+                        ->where('gallary_id', $post_id)
+                        ->update($set);
+
+                    DB::table('gallary_liked_master')
+                        ->where('post_id', $post_id)
+                        ->where('link_id', $link_id)
+                        ->delete();
+                }
+            }
+            return response()->json(['status' => 0, 'message' => 'UnLiked']);
         } else {
             $data = DB::table('gallary_master')
                 ->select('gallary_master.*')
@@ -502,8 +528,8 @@ class GalleryController extends Controller
 
         if ($data > 0) {
             $result = DB::table('member_notification')
-            ->where('n_id', $request->n_id)
-            ->update(['status' => 0]);
+                ->where('n_id', $request->n_id)
+                ->update(['status' => 0]);
 
             return response()->json(['status' => 1, 'message' => "Notification Deleted"]);
         } else {

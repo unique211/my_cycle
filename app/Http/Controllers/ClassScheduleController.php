@@ -748,7 +748,7 @@ class ClassScheduleController extends Controller
 
         // $where=array('class_sechedule_master.class_schedule'=>$date);
         $data = DB::table('class_sechedule_master')
-            ->select('class_sechedule_master.*', 'class_master.class_description', 'class_master.class_name as classname', 'instuctor_master.instructor_name', 'instuctor_master.instructor_img')
+            ->select('class_sechedule_master.*', 'class_master.class_description','class_master.class_description_ch', 'class_master.class_name as classname', 'instuctor_master.instructor_name', 'instuctor_master.instructor_img')
             ->join('class_master', 'class_master.class_id', '=', 'class_sechedule_master.classsechedule_name')
             ->join('instuctor_master', 'instuctor_master.instructorid', '=', 'class_sechedule_master.instructor')
             ->whereDate('class_sechedule_master.class_schedule', $date)
@@ -787,6 +787,7 @@ class ClassScheduleController extends Controller
                     'duration' => $val->class_duration,
                     'vacancy' => $val->max_vacancy,
                     'class_description' => $val->class_description,
+                    'class_description_ch' => $val->class_description_ch,
                     'min_cancelation' => $val->min_cancelation,
                     'min_booking' => $val->min_booking,
                     'status' => $val->status,
@@ -927,7 +928,7 @@ class ClassScheduleController extends Controller
             $result2 = array();
 
             $data2 = DB::table('class_sechedule_master')
-                ->select('class_sechedule_master.*', 'class_master.class_description', 'class_master.class_name as classname', 'instuctor_master.instructor_name', 'instuctor_master.instructor_img', 'booking_table.booking_id')
+                ->select('class_sechedule_master.*', 'class_master.class_description','class_master.class_description_ch', 'class_master.class_name as classname', 'instuctor_master.instructor_name', 'instuctor_master.instructor_img', 'booking_table.booking_id')
                 ->join('class_master', 'class_master.class_id', '=', 'class_sechedule_master.classsechedule_name')
                 ->join('booking_table', 'booking_table.class_schedule_id', '=', 'class_sechedule_master.classsechedule_id')
                 ->join('instuctor_master', 'instuctor_master.instructorid', '=', 'class_sechedule_master.instructor')
@@ -970,6 +971,7 @@ class ClassScheduleController extends Controller
                     'duration' => $val2->class_duration,
                     'vacancy' => $val2->max_vacancy,
                     'class_description' => $val2->class_description,
+                    'class_description_ch' => $val2->class_description_ch,
                     'min_cancelation' => $val2->min_cancelation,
                     'min_booking' => $val2->min_booking,
                     'status' => $val2->status,
@@ -996,7 +998,7 @@ class ClassScheduleController extends Controller
         //   $result = "";
 
         $data1 = DB::table('class_sechedule_master')
-            ->select('class_sechedule_master.*', 'class_master.class_description', 'class_master.class_name as classname', 'instuctor_master.instructor_name', 'instuctor_master.instructor_img')
+            ->select('class_sechedule_master.*', 'class_master.class_description','class_master.class_description_ch', 'class_master.class_name as classname', 'instuctor_master.instructor_name', 'instuctor_master.instructor_img')
             ->join('class_master', 'class_master.class_id', '=', 'class_sechedule_master.classsechedule_name')
             ->join('instuctor_master', 'class_sechedule_master.instructor', '=', 'instuctor_master.instructorid')
             ->where('class_sechedule_master.status', 1)
@@ -1050,6 +1052,7 @@ class ClassScheduleController extends Controller
                 'duration' => $val2->class_duration,
                 'vacancy' => $val2->max_vacancy,
                 'class_description' => $val2->class_description,
+                'class_description_ch' => $val2->class_description_ch,
                 'min_cancelation' => $val2->min_cancelation,
                 'min_booking' => $val2->min_booking,
                 'status' => $val2->status,

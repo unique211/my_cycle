@@ -6,7 +6,7 @@
             <h2 class="fadeInUp animation-delay8" style="font-weight:bold">
                 {{--  <span class="text-success">Endless</span> <span style="color:#ccc; text-shadow:0 1px #fff">Admin</span>  --}}
                 {{--  <span class="text-success">Gym</span>  --}}
-                <img src="<?php echo url('/'); ?>/resources/sass/img/MyCycle.png" style="height:150px;width:400px" >
+                <img src="<?php echo url('/'); ?>/resources/sass/img/web_hi_res_512.png" style="height:150px;width:400px" >
             </h2>
         </div>
         <div class="login-widget animation-delay1">

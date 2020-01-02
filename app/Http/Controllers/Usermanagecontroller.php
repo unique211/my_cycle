@@ -56,9 +56,31 @@ class Usermanagecontroller extends Controller
         $cnt = count($data);
 
         if ($cnt > 0) {
+
+
+
+
             foreach ($data as $val) {
                 $pass = $val->password;
 
+                $language = "";
+                $user_language = DB::table('user_settings')
+                    ->select('user_settings.*')
+                    ->where('link_id', $val->linkrelid)
+                    ->get();
+                $cnt_user = count($user_language);
+                if ($cnt_user > 0) {
+                    foreach ($user_language as $val22) {
+                        $lang = $val22->language;
+                        if ($lang == 1) {
+                            $language = "English";
+                        } else {
+                            $language = "Chinese";
+                        }
+                    }
+                } else {
+                    $language = "";
+                }
 
                 DB::table('link_relation_ship')
                     ->where($where)
@@ -71,10 +93,10 @@ class Usermanagecontroller extends Controller
                     $result[] = array(
                         'username' => $userid,
                         'name' => $val->name,
-                        'blance' => $val->balancepoint,
+                        'balance' => $val->balancepoint,
                         'link_id' => $val->linkrelid,
                         'member_id' => $val->member_id,
-
+                        'language' => $language,
                     );
 
                     return response()->json(['data' => $result, 'status' => 1]);
@@ -95,7 +117,8 @@ class Usermanagecontroller extends Controller
                                 'name' => $val2->name,
                                 'balance' => $val2->balancepoint,
                                 'link_id' => $val2->linkrelid,
-                                'member_id' => $val2->member_id
+                                'member_id' => $val2->member_id,
+                                'language' => $language,
                             );
                         }
 
@@ -287,28 +310,54 @@ class Usermanagecontroller extends Controller
             ->where('link_id', $link_id)
             ->get()->count();
         if ($chk_exist > 0) {
-            $data = array(
-                'receive_mobile_notification' => $request->receive_mobile_notification,
-                'prompt_me' => $request->prompt_me,
-                'language' => $request->language,
 
-            );
-            DB::table('user_settings')
-                ->where('link_id', $link_id)
-                ->update($data);
+            if ($request->receive_mobile_notification == "") {
+                $data = array(
+
+                    'language' => $request->language,
+                    );
+                DB::table('user_settings')
+                    ->where('link_id', $link_id)
+                    ->update($data);
+            } else{
+                $data = array(
+                    'receive_mobile_notification' => $request->receive_mobile_notification,
+                    'prompt_me' => $request->prompt_me,
+                    'language' => $request->language,
+
+                );
+                DB::table('user_settings')
+                    ->where('link_id', $link_id)
+                    ->update($data);
+            }
+
 
             return response()->json(['status' => 1, 'message' => "User Setting Updated"]);
         } else {
-            $data = array(
-                'receive_mobile_notification' => $request->receive_mobile_notification,
-                'prompt_me' => $request->prompt_me,
-                'language' => $request->language,
-                'link_id' => $request->link_id,
+            if ($request->receive_mobile_notification == "") {
+                $data = array(
 
-            );
+                    'language' => $request->language,
+                    'link_id' => $request->link_id,
 
-            $result =  DB::table('user_settings')
-                ->Insert($data);
+                );
+
+                $result =  DB::table('user_settings')
+                    ->Insert($data);
+            } else {
+                $data = array(
+                    'receive_mobile_notification' => $request->receive_mobile_notification,
+                    'prompt_me' => $request->prompt_me,
+                    'language' => $request->language,
+                    'link_id' => $request->link_id,
+
+                );
+
+                $result =  DB::table('user_settings')
+                    ->Insert($data);
+            }
+
+
             return response()->json(['status' => 1, 'message' => "User Setting Inserted"]);
         }
 
