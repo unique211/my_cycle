@@ -8,7 +8,8 @@
         <div id="main-container">
             <div id="breadcrumb">
                 <ul class="breadcrumb">
-                    <li><i class="fa fa-home"></i><a href="#"> @lang('site_lables.Home')/@lang('site_lables.Member')</a></li>
+                    <li><i class="fa fa-home"></i><a href="#"> @lang('site_lables.Home')/@lang('site_lables.Member')</a>
+                    </li>
                     <li class="active"></li>
                 </ul>
             </div><!-- /breadcrumb-->
@@ -36,7 +37,8 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <input type="number" class="form-control input-sm placeholdesize checkuserid"
+                                                <input type="number"
+                                                    class="form-control input-sm placeholdesize checkuserid"
                                                     placeholder="@lang('site_lables.User_Id')" id="user_id"
                                                     name="user_id" required>
                                             </div>
@@ -50,7 +52,7 @@
                                             <div class="form-group">
                                                 <input type="password" class="form-control input-sm placeholdesize"
                                                     id="password" name="password"
-                                                    placeholder="@lang('site_lables.Password')" >
+                                                    placeholder="@lang('site_lables.Password')">
                                             </div>
                                         </div>
                                         <div class="col-sm-2">
@@ -102,7 +104,7 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <textarea name="address" id="address" rows="2" class="form-control"
+                                                <textarea name="address" id="address" rows="2" class="form-control" style="resize: none;"
                                                     placeholder="@lang('site_lables.Address')"></textarea>
                                             </div>
                                         </div>
@@ -180,12 +182,34 @@
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <input type="file" id="upload" name="upload" class="form-control" accept="image/*" >
-                                                <input type="hidden" id="uploadimg_hidden" name="uploadimg_hidden" value="">
+                                                <input type="file" id="upload" name="upload" class="form-control"
+                                                    accept="image/*">
+                                                <input type="hidden" id="uploadimg_hidden" name="uploadimg_hidden"
+                                                    value="">
                                                 <div id="msg" name="msg"></div>
-<div id="wait" style="width:100px;height:100px;position:absolute;top:;left:45%;padding:2px;display:none"><img src="{{ env('APP_URL') }}/resources/sass/img/loader.gif" width="100" height="100" /><br><center><h5>Please Wait...</h5></center></div>
+                                                <div id="wait"
+                                                    style="width:100px;height:100px;position:absolute;top:;left:45%;padding:2px;display:none">
+                                                    <img src="{{ env('APP_URL') }}/resources/sass/img/loader.gif"
+                                                        width="100" height="100" /><br>
+                                                    <center>
+                                                        <h5>Please Wait...</h5>
+                                                    </center>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div style="display:none" id="if_not_admin">
+                                            <div class="col-sm-2">
+                                                <div class="form-group">
+                                                    <label>@lang('site_lables.Reason')*</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <textarea name="reason" id="reason" rows="2" class="form-control" style="resize: none;"
+                                                placeholder="@lang('site_lables.Reason')" ></textarea>
+                                                <input type="hidden" name="pre_point" id="pre_point" value="">
+                                            </div>
+                                        </div>
+
                                         <div class="col-sm-12" id="if_group" style="display:none;">
                                             <div style="margin-top:0px;border-bottom:1px solid;width:100%;">
                                                 <h5 class=""><b>@lang('site_lables.Link')
@@ -249,7 +273,7 @@
                                                     style="display: none">@lang('site_lables.Delete')</button>
                                             </div>
                                             <div class="col-lg-2 " style="text-align: right">
-                                                <input type="hidden" id="save_update" name="save_update"  value="">
+                                                <input type="hidden" id="save_update" name="save_update" value="">
                                                 {{-- <input type="hidden" id="save_update" value=""> --}}
                                                 <button type="submit" id="btnsave"
                                                     class="btn btn-sm btn-success btn-sm ">@lang('site_lables.Save')</button>
@@ -276,22 +300,58 @@
                                     <table class="table-striped" id="laravel_crud" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th><font style="font-weight:bold">@lang('site_lables.User_Id')</font></th>
-                                                <th><font style="font-weight:bold"></font>@lang('site_lables.Name')</th>
-                                                <th><font style="font-weight:bold"></font>@lang('site_lables.Ic_Number')</th>
-                                                <th><font style="font-weight:bold"></font>@lang('site_lables.Current_Package')</th>
-                                                <th><font style="font-weight:bold"></font>@lang('site_lables.Member_Type')</th>
-                                                <th style="display:none;"><font style="font-weight:bold"></font>Member type id</th>
-                                                <th><font style="font-weight:bold"></font>@lang('site_lables.Date_of_Expiry')</th>
-                                                <th><font style="font-weight:bold"></font>@lang('site_lables.No_of_link_Relationship')</th>
-                                                <th style="display:none;"><font style="font-weight:bold"></font>Date of Birth</th>
-                                                <th style="display:none;"><font style="font-weight:bold"></font>Address</th>
-                                                <th style="display:none;"><font style="font-weight:bold"></font>Image</th>
-                                                <th style="display:none;"><font style="font-weight:bold"></font>Email Address</th>
-                                                <th style="display:none;"><font style="font-weight:bold"></font>Current Package</th>
-                                                <th style="display:none;"><font style="font-weight:bold"></font>Current Package</th>
-                                                <th style="display:none;"><font style="font-weight:bold"></font>Balance Point</th>
-                                                <th class="not-export-column"><font style="font-weight:bold">@lang('site_lables.Action')</font>   </th>
+                                                <th>
+                                                    <font style="font-weight:bold">@lang('site_lables.User_Id')</font>
+                                                </th>
+                                                <th>
+                                                    <font style="font-weight:bold"></font>@lang('site_lables.Name')
+                                                </th>
+                                                <th>
+                                                    <font style="font-weight:bold"></font>@lang('site_lables.Ic_Number')
+                                                </th>
+                                                <th>
+                                                    <font style="font-weight:bold"></font>
+                                                    @lang('site_lables.Current_Package')
+                                                </th>
+                                                <th>
+                                                    <font style="font-weight:bold"></font>
+                                                    @lang('site_lables.Member_Type')
+                                                </th>
+                                                <th style="display:none;">
+                                                    <font style="font-weight:bold"></font>Member type id
+                                                </th>
+                                                <th>
+                                                    <font style="font-weight:bold"></font>
+                                                    @lang('site_lables.Date_of_Expiry')
+                                                </th>
+                                                <th>
+                                                    <font style="font-weight:bold"></font>
+                                                    @lang('site_lables.No_of_link_Relationship')
+                                                </th>
+                                                <th style="display:none;">
+                                                    <font style="font-weight:bold"></font>Date of Birth
+                                                </th>
+                                                <th style="display:none;">
+                                                    <font style="font-weight:bold"></font>Address
+                                                </th>
+                                                <th style="display:none;">
+                                                    <font style="font-weight:bold"></font>Image
+                                                </th>
+                                                <th style="display:none;">
+                                                    <font style="font-weight:bold"></font>Email Address
+                                                </th>
+                                                <th style="display:none;">
+                                                    <font style="font-weight:bold"></font>Current Package
+                                                </th>
+                                                <th style="display:none;">
+                                                    <font style="font-weight:bold"></font>Current Package
+                                                </th>
+                                                <th style="display:none;">
+                                                    <font style="font-weight:bold"></font>Balance Point
+                                                </th>
+                                                <th class="not-export-column">
+                                                    <font style="font-weight:bold">@lang('site_lables.Action')</font>
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody id="table_tbody">
@@ -449,10 +509,11 @@
                                     <div class="row">
                                         <div class="col-sm-12" id="linkrelationdata">
                                             <div style="margin-top:0px;border-bottom:1px solid;width:100%;">
-                                                <h5 class=""><b>@lang('site_lables.Link') @lang('site_lables.Relationship')</b></h5>
+                                                <h5 class=""><b>@lang('site_lables.Link')
+                                                        @lang('site_lables.Relationship')</b></h5>
                                             </div>
                                             <br>
-                                            <div class="table-responsive row form-group" >
+                                            <div class="table-responsive row form-group">
                                                 <table id="file_info2_v"
                                                     style="width: 100%; margin-left: 0px; table-layout: fixed;"
                                                     class="table table-striped dataTable no-footer">
@@ -461,7 +522,8 @@
                                                         <tr>
                                                             <th>@lang('site_lables.Name')</th>
                                                             <th>@lang('site_lables.Relationship')</th>
-                                                            <th>@lang('site_lables.User_Id')  (@lang('site_lables.Phone_Number'))</th>
+                                                            <th>@lang('site_lables.User_Id')
+                                                                (@lang('site_lables.Phone_Number'))</th>
                                                             <th>@lang('site_lables.Password')</th>
 
                                                         </tr>
@@ -481,7 +543,8 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div style="margin-top:0px;border-bottom:1px solid;width:100%;">
-                                                <h5 class=""><b>@lang('site_lables.Point') @lang('site_lables.Usage') @lang('site_lables.History')</b></h5>
+                                                <h5 class=""><b>@lang('site_lables.Point') @lang('site_lables.Usage')
+                                                        @lang('site_lables.History')</b></h5>
                                             </div>
                                             <br>
                                             <div class="table-responsive row form-group" id="">
@@ -493,7 +556,8 @@
                                                             <th>@lang('site_lables.Date_&_Time')</th>
                                                             <th>@lang('site_lables.User_Id')</th>
                                                             <th> @lang('site_lables.Class')</th>
-                                                            <th> @lang('site_lables.Point') @lang('site_lables.Use')</th>
+                                                            <th> @lang('site_lables.Point') @lang('site_lables.Use')
+                                                            </th>
                                                             <th>@lang('site_lables.Instructor')</th>
                                                         </tr>
                                                     </thead>
@@ -566,7 +630,8 @@ var getgroupinfo="{{ url('getgroupwiseinfo') }}";
 var delete_data="{{ url('deletememberinfo') }}";
 var checkuseridexis="{{ url('checkuseridexist') }}";
 var uploadfileurl="{{ url('member_img') }}";
-var getpointusage="{{ url('getpointusage') }}"
+var getpointusage="{{ url('getpointusage') }}";
+var role="<?php echo Session::get('role');?>";
 </script>
 <script>
     $('.date').datepicker({

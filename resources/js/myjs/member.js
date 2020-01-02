@@ -106,6 +106,25 @@ $(document).ready(function() {
         }
 
     });
+
+    $(document).on('blur', '#bal_point', function() {
+        var bal_point = $("#bal_point").val();
+        var save_update = $('#save_update').val();
+        $("#if_not_admin").hide();
+        $("#reason").prop('required', false);
+        $("#reason").val('');
+        if (save_update != "") {
+            if (role != "Admin") {
+                $("#if_not_admin").show();
+                $("#reason").prop('required', true);
+            } else {
+                $("#if_not_admin").hide();
+                $("#reason").prop('required', false);
+                $("#reason").val('');
+            }
+        }
+
+    });
     $(document).on('click', '.closehideshow', function() {
         $(".deletehideshow").hide();
         $(".viewhideshow").hide();
@@ -187,6 +206,8 @@ $(document).ready(function() {
         var bal_point = $('#bal_point').val();
         var uploadimg_hidden = $('#uploadimg_hidden').val();
         var member_type = $('#member_type').val();
+        var reason = $('#reason').val();
+        var pre_point = $('#pre_point').val();
 
         var tdateAr = dob.split('/');
         dob = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
@@ -264,6 +285,8 @@ $(document).ready(function() {
                 package: package,
                 doe: doe,
                 bal_point: bal_point,
+                reason: reason,
+                pre_point: pre_point,
                 member_type: member_type,
                 uploadimg_hidden: uploadimg_hidden,
                 save_update: save_update,
@@ -384,7 +407,7 @@ $(document).ready(function() {
             url: getpackagepoint,
             type: "POST",
             dataType: 'json',
-            // async: false,
+            async: false,
             success: function(data) {
                 if (data.length > 0) {
                     $('#bal_point').val(data[0].package_point);
@@ -643,7 +666,7 @@ $(document).ready(function() {
 
         $('#bal_point').val(balancepoint_);
 
-
+        $('#pre_point').val(balancepoint_);
 
 
 
@@ -679,6 +702,8 @@ $(document).ready(function() {
                 }
 
             }
+
+
 
         });
 
@@ -739,7 +764,7 @@ $(document).ready(function() {
         $('#doe').val('');
 
         $('#bal_point').val('');
-
+        $('#pre_point').val('');
         $('#member_type').val('');
 
 
@@ -756,7 +781,7 @@ $(document).ready(function() {
         $('#email').val('');
         $('#package').val('').trigger('change');
         $('#doe').val('');
-        $('#bal_point').val('');
+
         $('#member_type').val('').trigger('change');
 
         $('#upload').val('');
@@ -765,6 +790,9 @@ $(document).ready(function() {
         $("#submit_btn").attr("disabled", false);
         $('#history_tbody').html('');
         $('#history_tbody2').html('');
+        $("#if_not_admin").hide();
+        $("#reason").prop('required', false);
+        $("#reason").val('');
     }
 
     //delete of member

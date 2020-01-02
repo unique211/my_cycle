@@ -165,6 +165,33 @@ class MemberController extends Controller
                 $Logmodel->user_id = $user_id;
                 $Logmodel->save();
             }
+            $role = Session::get('role');
+            if ($role != "Admin") {
+
+
+                if ($ID != "") {
+                    $reason = $request->reason;
+                    $pre_point = $request->pre_point;
+                    $bal_point = $request->bal_point;
+                    date_default_timezone_set('Asia/Kolkata');
+                    $date = date("Y-m-d H:i:s");
+                    if ($pre_point != $bal_point) {
+                        $insert_point = array(
+                            'member_id' => $ref_id,
+                            'user_id' => $user_id,
+                            'previous_point' => $pre_point,
+                            'current_point' => $bal_point,
+                            'reason' => $reason,
+                            'created_at' => $date,
+                        );
+
+                        $result =  DB::table('point_changes_logs')
+                        ->Insert($insert_point);
+
+                    }
+                }
+            }
+
             return Response::json($ref_id);
         }
     }
