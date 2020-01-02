@@ -226,27 +226,27 @@ $(document).ready(function() {
         student["password"] = password;
         studejsonObj.push(student);
 
-        if (save_update != "") {
-            $.ajax({
-                data: {
-                    save_update: save_update,
+        // if (save_update != "") {
+        //     $.ajax({
+        //         data: {
+        //             save_update: save_update,
 
-                },
-                url: deletemember,
-                type: "POST",
-                dataType: 'json',
-                async: false,
-                success: function(data) {
-                    //
+        //         },
+        //         url: deletemember,
+        //         type: "POST",
+        //         dataType: 'json',
+        //         async: false,
+        //         success: function(data) {
+        //             //
 
 
-                },
-                error: function(data) {
-                    console.log('Error:', data);
-                }
-            });
+        //         },
+        //         error: function(data) {
+        //             console.log('Error:', data);
+        //         }
+        //     });
 
-        }
+        // }
 
         $(".tblusername").each(function() {
             var id1 = $(this).attr('id');
