@@ -79,12 +79,12 @@
                                             <div class="row form-group">
                                                 <div class="col-sm-4">
 
-                                                    <label>@lang('site_lables.Instructor_Photo')*</label>
+                                                    <label>@lang('site_lables.Instructor_Photo')</label>
 
                                                 </div>
                                                 <div class="col-sm-8">
 
-                                                    <input type="file" name="photo" id="photo" class="form-control" accept="image/*" required>
+                                                    <input type="file" name="photo" id="photo" class="form-control" accept="image/*" >
                                                     <input type="hidden" name="imghidden" id="imghidden" value="0">
                                                     <div id="msgid"></div>
                                                     <div id="wait" style="width:100px;height:100px;position:absolute;top:;left:45%;padding:2px;display:none"><img src="{{ env('APP_URL') }}/resources/sass/img/loader.gif" width="100" height="100" /><br><center><h5>Please Wait...</h5></center></div>

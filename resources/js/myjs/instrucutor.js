@@ -138,11 +138,11 @@ $(document).ready(function() {
             success: function(data) {
                 //alert(data);
 
-                // $('#photo').val(data);
+
                 $('#msgid').html(data);
                 $('#imghidden').val(data);
                 $('#profileimg').attr('src', imgurl + '/uploads/' + data);
-                $("#photo").removeAttr("required");
+
                 $("#wait").hide();
             }
         });
@@ -479,12 +479,12 @@ $(document).ready(function() {
 
         if (instructor_img == "") {
 
-            $("#photo").attr("required", true);
+            $('#profileimg').attr('src', imgurl + '/resources/sass/img/no-image-available.png/');
         } else {
-            $('#photo').removeAttr('required');
+            $('#profileimg').attr('src', imgurl + '/uploads/' + instructor_img);
         }
 
-        $('#profileimg').attr('src', imgurl + '/uploads/' + instructor_img);
+
 
 
 
@@ -540,7 +540,7 @@ $(document).ready(function() {
         $('#profileimg').attr('src', imgurl + '/resources/sass/img/no-image-available.png/');
 
         $('.hidepassword').show();
-        $("#photo").attr("required", true);
+
         $("#password").attr("required", true);
         $("#cpassword").attr("required", true);
         $("#password").val('');

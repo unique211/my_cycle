@@ -58,7 +58,7 @@ class MemberController extends Controller
         $validator = Validator::make($input, [
             'user_id' => 'required',
             'name' => 'required',
-            'uploadimg_hidden' => 'required',
+
 
         ]);
 

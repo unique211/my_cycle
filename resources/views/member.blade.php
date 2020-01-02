@@ -175,12 +175,12 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label>@lang('site_lables.Image')* </label>
+                                                <label>@lang('site_lables.Image') </label>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <input type="file" id="upload" name="upload" class="form-control" accept="image/*" required>
+                                                <input type="file" id="upload" name="upload" class="form-control" accept="image/*" >
                                                 <input type="hidden" id="uploadimg_hidden" name="uploadimg_hidden" value="">
                                                 <div id="msg" name="msg"></div>
 <div id="wait" style="width:100px;height:100px;position:absolute;top:;left:45%;padding:2px;display:none"><img src="{{ env('APP_URL') }}/resources/sass/img/loader.gif" width="100" height="100" /><br><center><h5>Please Wait...</h5></center></div>

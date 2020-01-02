@@ -160,7 +160,7 @@ $(document).ready(function() {
             success: function(data) {
                 //alert(data);
 
-                //   $('#upload').val('');
+
                 $('#msg').html(data);
                 $('#uploadimg_hidden').val(data);
                 $("#wait").hide();
@@ -639,11 +639,7 @@ $(document).ready(function() {
 
 
 
-        if (image_url_ == "") {
-            $("#upload").attr("required", true);
-        } else {
-            $("#upload").removeAttr("required");
-        }
+
         $('#uploadimg_hidden').val(image_url_);
         $('#msg').html(image_url_);
 
