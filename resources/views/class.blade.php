@@ -60,13 +60,25 @@
 
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label>@lang('site_lables.Class_Description')</label>
+                                                <label>@lang('site_lables.Class_Description') (@lang('site_lables.English_Text'))</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <textarea name="class_description" id="class_description"
-                                                    class="form-control input-sm" placeholder="@lang('site_lables.Class_Description')"
+                                                <textarea name="class_description" id="class_description" style="resize:none"
+                                                    class="form-control input-sm" placeholder="@lang('site_lables.Class_Description')  (@lang('site_lables.English_Text'))"
+                                                    rows="2"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label>@lang('site_lables.Class_Description') (@lang('site_lables.Chinese_Text'))</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <textarea name="class_description_ch" id="class_description_ch" style="resize:none"
+                                                    class="form-control input-sm" placeholder="@lang('site_lables.Class_Description')  (@lang('site_lables.Chinese_Text'))"
                                                     rows="2"></textarea>
                                             </div>
                                         </div>
@@ -121,6 +133,7 @@
                                                 <th><font style="font-weight:bold">@lang('site_lables.Class_Category')</font></th>
                                                 <th style="display:none;"><font style="font-weight:bold;">@lang('site_lables.Class_Category_ID')</font></th>
                                                 <th style="display:none;"><font style="font-weight:bold;">@lang('site_lables.Class_Description')</font></th>
+                                                <th style="display:none;"><font style="font-weight:bold;">@lang('site_lables.Class_Description') (@lang('site_lables.Chinese_Text'))</font></th>
                                                 <th><font style="font-weight:bold">@lang('site_lables.Status')</font></th>
                                                 <th class="not-export-column"><font style="font-weight:bold">@lang('site_lables.Action')</font>   </th>
 
