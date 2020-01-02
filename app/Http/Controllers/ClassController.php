@@ -87,6 +87,7 @@ class ClassController extends Controller
                                 'class_name'       =>   $request->class_name,
                                 'class_category'       =>   $request->class_category,
                                 'class_description'       =>   $request->class_description,
+                                'class_description_ch'       =>   $request->class_description_ch,
                                 'status'=>$request->statusinfo,
                                 'user_id'=>$user_id,
 
@@ -133,6 +134,7 @@ class ClassController extends Controller
                                 'class_name'       =>   $request->class_name,
                                 'class_category'       =>   $request->class_category,
                                 'class_description'       =>   $request->class_description,
+                                'class_description_ch'       =>   $request->class_description_ch,
                                 'status'=>$request->statusinfo,
                                 'user_id'=>$user_id,
 
@@ -280,6 +282,7 @@ class ClassController extends Controller
                 'class_name'       =>   $request->class_name,
                 'class_category'       =>   $request->class_category,
                 'class_description'       =>   $request->class_description,
+                'class_description_ch'       =>   $request->class_description_ch,
                 'status'=>$request->statusinfo,
                 'user_id'=>$user_id,
 

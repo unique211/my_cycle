@@ -33,6 +33,97 @@
                             </div>
                             <div class="panel-body ">
 
+                                <form id="master_form" name="master_form">
+                                    @csrf
+                                    <div class="form-group row">
+
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label>@lang('site_lables.From')*</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <div class="input-group date" data-provide="datepicker">
+                                                    <input type="text"
+                                                        class="form-control input-sm placeholdesize datepicker"
+                                                        id="from" name="from" required>
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label>@lang('site_lables.To')*</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <div class="input-group date" data-provide="datepicker">
+                                                    <input type="text"
+                                                        class="form-control input-sm placeholdesize datepicker" id="to"
+                                                        name="to" required>
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label>@lang('site_lables.Class')*</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <select name="class" id="class" class="form-control input-sm" required>
+                                                    <option value="">All</option>
+                                                    <option value="1">Class 1</option>
+                                                    <option value="2">Class 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label>@lang('site_lables.Instructor')*</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <select name="instructorid" id="instructorid"
+                                                    class="form-control input-sm" required>
+                                                    <option value="">All</option>
+                                                    <option value="1">Instructor 1</option>
+                                                    <option value="2">Instructor 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label>@lang('site_lables.Member')*</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <select name="member_id" id="member_id"
+                                                    class="form-control input-sm" required>
+                                                    <option value="">All</option>
+                                                    <option value="1">Member 1</option>
+                                                    <option value="2">Member 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <button type="submit"
+                                                    class="btn btn-success">@lang('site_lables.Search')</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
                                 <div class="table-responsive" id="show_master">
                                     <table class="table-striped" id="data_table" style="width:100%">
                                         <thead>
@@ -47,14 +138,14 @@
                                             </tr>
                                         </thead>
                                         <tbody id="table_tbody">
-                                            <tr>
+                                            {{--  <tr>
                                                 <td>Class 5</td>
                                                 <td>10:00</td>
                                                 <td>ABCD</td>
                                                 <td><a href="#">21</a></td>
                                                 <td>10</td>
 
-                                            </tr>
+                                            </tr>  --}}
 
 
 
@@ -98,43 +189,36 @@
     @include('layout.footerlink')
 
 </body>
-<script>
-    $("#data_table").DataTable({
-        dom: 'Bfrtip',
-
-            buttons: [{
-            extend: 'excelHtml5',
-            title: 'Class Booking',
-            exportOptions: {
-            columns: [0, 1, 2, 3, 4]
-            },
-
-            },
-            {
-            extend: 'print',
-            title: 'Class Booking',
-            exportOptions: {
-           columns: [0, 1, 2, 3, 4]
-            },
-
-
-
-            }
-            ]
-
-
+<script type="text/javascript">
+    $(document).ready(function () {
+    $.ajaxSetup({
+    headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
     });
+
+      // var getallcategory="{{ url('getallcategory') }}";
+
+});
+
 </script>
+
+
 <script>
-    $('.dob').datepicker({
-                       'todayHighlight': true,
-                       format: 'dd/mm/yyyy',
-                       autoclose: true,
-                  });
-                  var date = new Date();
-                  date = date.toString('dd/MM/yyyy');
-                  $("#dob").val(date);
-                  //  $("#fdate").val(date);
+    $('.date').datepicker({
+'todayHighlight': true,
+format: 'dd/mm/yyyy',
+autoclose: true,
+});
+var date = new Date();
+date = date.toString('dd/MM/yyyy');
+
+$("#from").val(date);
+$("#to").val(date);
+
+var getdata="{{ url('get_class_booking_report') }}";
 </script>
+ <script type='text/javascript' src="{{ URL::asset('/resources/js/myjs/class_booking_report.js',true) }}"></script>
+
 
 </html>

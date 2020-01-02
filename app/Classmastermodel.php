@@ -10,6 +10,6 @@ class Classmastermodel extends Model
     public $primaryKey = 'class_id';
     protected $table = "class_master";
     protected $fillable = [
-        'class_name', 'class_category','class_description','status','user_id',
+        'class_name', 'class_category','class_description','class_description_ch','status','user_id',
     ];
 }

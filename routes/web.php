@@ -208,6 +208,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     //for attandancereport
     Route::post('getattandancedata', 'AttendenceRatingController@getattandancedata');
 
+//for class booking report
+    Route::post('get_class_booking_report', 'AttendenceRatingController@get_class_booking_report');
+
 
 });
 

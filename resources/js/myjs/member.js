@@ -106,6 +106,25 @@ $(document).ready(function() {
         }
 
     });
+
+    $(document).on('blur', '#bal_point', function() {
+        var bal_point = $("#bal_point").val();
+        var save_update = $('#save_update').val();
+        $("#if_not_admin").hide();
+        $("#reason").prop('required', false);
+        $("#reason").val('');
+        if (save_update != "") {
+            if (role != "Admin") {
+                $("#if_not_admin").show();
+                $("#reason").prop('required', true);
+            } else {
+                $("#if_not_admin").hide();
+                $("#reason").prop('required', false);
+                $("#reason").val('');
+            }
+        }
+
+    });
     $(document).on('click', '.closehideshow', function() {
         $(".deletehideshow").hide();
         $(".viewhideshow").hide();
@@ -160,7 +179,7 @@ $(document).ready(function() {
             success: function(data) {
                 //alert(data);
 
-                //   $('#upload').val('');
+
                 $('#msg').html(data);
                 $('#uploadimg_hidden').val(data);
                 $("#wait").hide();
@@ -187,6 +206,8 @@ $(document).ready(function() {
         var bal_point = $('#bal_point').val();
         var uploadimg_hidden = $('#uploadimg_hidden').val();
         var member_type = $('#member_type').val();
+        var reason = $('#reason').val();
+        var pre_point = $('#pre_point').val();
 
         var tdateAr = dob.split('/');
         dob = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
@@ -205,27 +226,27 @@ $(document).ready(function() {
         student["password"] = password;
         studejsonObj.push(student);
 
-        if (save_update != "") {
-            $.ajax({
-                data: {
-                    save_update: save_update,
+        // if (save_update != "") {
+        //     $.ajax({
+        //         data: {
+        //             save_update: save_update,
 
-                },
-                url: deletemember,
-                type: "POST",
-                dataType: 'json',
-                async: false,
-                success: function(data) {
-                    //
+        //         },
+        //         url: deletemember,
+        //         type: "POST",
+        //         dataType: 'json',
+        //         async: false,
+        //         success: function(data) {
+        //             //
 
 
-                },
-                error: function(data) {
-                    console.log('Error:', data);
-                }
-            });
+        //         },
+        //         error: function(data) {
+        //             console.log('Error:', data);
+        //         }
+        //     });
 
-        }
+        // }
 
         $(".tblusername").each(function() {
             var id1 = $(this).attr('id');
@@ -264,6 +285,8 @@ $(document).ready(function() {
                 package: package,
                 doe: doe,
                 bal_point: bal_point,
+                reason: reason,
+                pre_point: pre_point,
                 member_type: member_type,
                 uploadimg_hidden: uploadimg_hidden,
                 save_update: save_update,
@@ -384,7 +407,7 @@ $(document).ready(function() {
             url: getpackagepoint,
             type: "POST",
             dataType: 'json',
-            // async: false,
+            async: false,
             success: function(data) {
                 if (data.length > 0) {
                     $('#bal_point').val(data[0].package_point);
@@ -418,6 +441,13 @@ $(document).ready(function() {
                     doe = tdateAr[2] + '/' + tdateAr[1] + '/' + tdateAr[0];
                 }
 
+                var member_count = 0;
+                if (data[i].membertype == "Individual") {
+                    member_count = 0;
+                } else {
+                    member_count = parseInt(data[i].membercount) - 1;
+                }
+
 
                 // var tdateAr = doe.split('/');
                 // doe = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
@@ -431,7 +461,7 @@ $(document).ready(function() {
                     '<td id="membertype_' + data[i].member_id + '">' + data[i].membertype + '</td>' +
                     '<td style="display:none;" id="membertype_id_' + data[i].member_id + '">' + data[i].membertype_id + '</td>' +
                     '<td id="doe_' + data[i].member_id + '">' + doe + '</td>' +
-                    '<td id="membercount_' + data[i].member_id + '">' + data[i].membercount + '</td>' +
+                    '<td id="membercount_' + data[i].member_id + '">' + member_count + '</td>' +
 
                     '<td style="display:none;" id="dob_' + data[i].member_id + '">' + data[i].dob + '</td>' +
                     '<td style="display:none;" id="address_' + data[i].member_id + '">' + data[i].address + '</td>' +
@@ -606,7 +636,7 @@ $(document).ready(function() {
         var balancepoint_ = $('#balancepoint_' + id).html();
         var password = $('#password_' + id).html();
         var image_url_ = $('#image_url_' + id).html();
-        if (password == null) {
+        if (password == "null") {
             password = "";
         }
         if (dob_ != "") {
@@ -636,14 +666,10 @@ $(document).ready(function() {
 
         $('#bal_point').val(balancepoint_);
 
+        $('#pre_point').val(balancepoint_);
 
 
 
-        if (image_url_ == "") {
-            $("#upload").attr("required", true);
-        } else {
-            $("#upload").removeAttr("required");
-        }
         $('#uploadimg_hidden').val(image_url_);
         $('#msg').html(image_url_);
 
@@ -676,6 +702,8 @@ $(document).ready(function() {
                 }
 
             }
+
+
 
         });
 
@@ -736,7 +764,7 @@ $(document).ready(function() {
         $('#doe').val('');
 
         $('#bal_point').val('');
-
+        $('#pre_point').val('');
         $('#member_type').val('');
 
 
@@ -753,7 +781,7 @@ $(document).ready(function() {
         $('#email').val('');
         $('#package').val('').trigger('change');
         $('#doe').val('');
-        $('#bal_point').val('');
+
         $('#member_type').val('').trigger('change');
 
         $('#upload').val('');
@@ -762,6 +790,9 @@ $(document).ready(function() {
         $("#submit_btn").attr("disabled", false);
         $('#history_tbody').html('');
         $('#history_tbody2').html('');
+        $("#if_not_admin").hide();
+        $("#reason").prop('required', false);
+        $("#reason").val('');
     }
 
     //delete of member

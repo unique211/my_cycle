@@ -13,7 +13,8 @@
         <div id="main-container">
             <div id="breadcrumb">
                 <ul class="breadcrumb">
-                    <li><i class="fa fa-home"></i><a href="#"> @lang('site_lables.Home')/ @lang('site_lables.Attendence_&_Rating')</a></li>
+                    <li><i class="fa fa-home"></i><a href="#"> @lang('site_lables.Home')/
+                            @lang('site_lables.Attendence_&_Rating')</a></li>
                     <li class="active"></li>
                 </ul>
             </div><!-- /breadcrumb-->
@@ -32,78 +33,80 @@
                                                                 class="fa fa-plus"></i> @lang('site_lables.Add_New')</button> --}}
                             </div>
                             <div class="panel-body">
-                                    <form id="master_form" name="master_form">
-                                <div class="form-group row">
+                                <form id="master_form" name="master_form">
+                                    <div class="form-group row">
 
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label>@lang('site_lables.From')*</label>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label>@lang('site_lables.From')*</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <div class="input-group date" data-provide="datepicker">
-                                                <input type="text"
-                                                    class="form-control input-sm placeholdesize datepicker" id="from"
-                                                    name="from" required>
-                                                <div class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <div class="input-group date" data-provide="datepicker">
+                                                    <input type="text"
+                                                        class="form-control input-sm placeholdesize datepicker"
+                                                        id="from" name="from" required>
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label>@lang('site_lables.To')*</label>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label>@lang('site_lables.To')*</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <div class="input-group date" data-provide="datepicker">
-                                                <input type="text"
-                                                    class="form-control input-sm placeholdesize datepicker" id="to"
-                                                    name="to" required>
-                                                <div class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <div class="input-group date" data-provide="datepicker">
+                                                    <input type="text"
+                                                        class="form-control input-sm placeholdesize datepicker" id="to"
+                                                        name="to" required>
+                                                    <div class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label>@lang('site_lables.Class')*</label>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label>@lang('site_lables.Class')*</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <select name="class" id="class" class="form-control input-sm" required>
+                                                    <option value="">All</option>
+                                                    <option value="1">Class 1</option>
+                                                    <option value="2">Class 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label>@lang('site_lables.Instructor')*</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <select name="instructorid" id="instructorid"
+                                                    class="form-control input-sm" required>
+                                                    <option value="">All</option>
+                                                    <option value="1">Instructor 1</option>
+                                                    <option value="2">Instructor 2</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <button type="submit"
+                                                    class="btn btn-success">@lang('site_lables.Search')</button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <select name="class" id="class" class="form-control input-sm" required>
-                                                <option value="">All</option>
-                                                <option value="1">Class 1</option>
-                                                <option value="2">Class 2</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label>@lang('site_lables.Instructor')*</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <select name="instructorid" id="instructorid" class="form-control input-sm" required>
-                                                <option value="">All</option>
-                                                <option value="1">Instructor 1</option>
-                                                <option value="2">Instructor 2</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-success">@lang('site_lables.Search')</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
 
                                 <div class="table-responsive" id="show_master">
                                     <table class="table-striped" id="data_table" style="width:100%">
@@ -219,4 +222,5 @@ $("#to").val(date);
 var getdata="{{ url('getattandancedata') }}";
 </script>
 <script type='text/javascript' src="{{ URL::asset('/resources/js/myjs/attandancereport.js',true) }}"></script>
+
 </html>

@@ -297,9 +297,9 @@
                     <ul class="submenu">
                         @foreach($sidebar as $val)
                         @if($val->submenuid==6)
-                        {{-- <li><a href="{{ url('class_booking') }}"><span class="submenu-label"><i
+                        <li><a href="{{ url('class_booking') }}"><span class="submenu-label"><i
                                 class="fa fa-plus fa-lg"></i> @lang('site_lables.Class_Booking')</span></a>
-                </li> --}}
+                </li>
                 @endif
                 @if($val->submenuid==7)
                 <li><a href="{{ url('attendence_rating') }}"><span class="submenu-label"><i

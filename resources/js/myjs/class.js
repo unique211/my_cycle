@@ -93,6 +93,7 @@ $(document).ready(function() {
         $('#class_name').val('');
         $('#class_category').val('').trigger('change');
         $('#class_description').val('');
+        $('#class_description_ch').val('');
         $('#btnsave').text('Save');
         $('#status').bootstrapToggle('on');
     }
@@ -122,6 +123,12 @@ $(document).ready(function() {
                 } else {
                     des = "";
                 }
+                var des2 = "";
+                if (data[i].class_description_ch != null) {
+                    des2 = data[i].class_description_ch;
+                } else {
+                    des2 = "";
+                }
 
 
                 html += '<tr>' +
@@ -129,8 +136,8 @@ $(document).ready(function() {
                     '<td id="classname_' + data[i].class_id + '">' + data[i].class_name + '</td>' +
                     '<td id="classcategory_' + data[i].class_id + '">' + data[i].classcategory + '</td>' +
                     '<td  style="display:none;" id="classcategoryid_' + data[i].class_id + '">' + data[i].class_category + '</td>' +
-                    '<td  style="display:none;" id="classdescription_' + data[i].class_id + '">' + des + '</td>';
-
+                    '<td  style="display:none;" id="classdescription_' + data[i].class_id + '">' + des + '</td>' +
+                    '<td  style="display:none;" id="classdescription_ch_' + data[i].class_id + '">' + des2 + '</td>';
 
 
                 if (rights == 1) {
@@ -186,7 +193,7 @@ $(document).ready(function() {
         var classname = $('#classname_' + id).html();
         var classcategoryid = $('#classcategoryid_' + id).html();
         var classdescription = $('#classdescription_' + id).html();
-
+        var classdescription_ch = $('#classdescription_ch_' + id).html();
 
 
 
@@ -201,6 +208,7 @@ $(document).ready(function() {
         $('#class_name').val(classname);
         $('#class_category').val(classcategoryid).trigger('change');
         $('#class_description').val(classdescription);
+        $('#class_description_ch').val(classdescription_ch);
 
         $('#save_update').val(id);
         $('#statusinfo').val(status);

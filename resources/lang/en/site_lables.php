@@ -267,4 +267,10 @@ return [
     'Message'=>'Message',
 
 
+    'Map_image'=>'Map Image',
+    'No_of_link_Relationship'=>'No. of link Relationship',
+    'Reason'=>'Reason',
+
+
+
 ];

@@ -340,6 +340,7 @@ class RoomController extends Controller
                 $data2 = DB::table('class_sechedule_master')
                 ->select('class_sechedule_master.*')
                 ->where('room_id',$rooom_id)
+                ->where('status',1)
                 ->get();
                 $count2=count($data2);
                 if($count2 >0){
