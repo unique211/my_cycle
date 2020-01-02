@@ -262,4 +262,9 @@ return [
     'Inquiry'=>'查询',
     'Subject'=>'学科',
     'Message'=>'信息',
+
+    'Map_image'=>'地图图片',
+    'No_of_link_Relationship'=>'链接数关系',
+    'Reason'=>'原因',
+
 ];

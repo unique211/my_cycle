@@ -1,0 +1,15 @@
+drop firebase field from site setting master
+
+ALTER TABLE class_master ADD class_description_ch VARCHAR(250) NULL AFTER class_description;
+
+
+CREATE TABLE `point_changes_logs` (
+ `id` int(11) NOT NULL AUTO_INCREMENT,
+ `member_id` int(11) DEFAULT NULL,
+ `user_id` int(11) DEFAULT NULL,
+ `previous_point` varchar(20) DEFAULT NULL,
+ `current_point` varchar(20) DEFAULT NULL,
+ `reason` varchar(250) DEFAULT NULL,
+ `created_at` datetime DEFAULT NULL,
+ PRIMARY KEY (`id`)
+)
