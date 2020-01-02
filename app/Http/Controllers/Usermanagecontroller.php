@@ -93,7 +93,7 @@ class Usermanagecontroller extends Controller
                     $result[] = array(
                         'username' => $userid,
                         'name' => $val->name,
-                        'blance' => $val->balancepoint,
+                        'balance' => $val->balancepoint,
                         'link_id' => $val->linkrelid,
                         'member_id' => $val->member_id,
                         'language' => $language,
