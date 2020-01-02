@@ -67,7 +67,7 @@ Route::middleware(['basicAuth'])->group(function () {
     Route::post('datewise_shedule', 'ClassScheduleController@datewise_shedule');
 
     //gallery api
-    Route::get('gallery_api', 'GalleryController@gallery_api');
+    Route::post('gallery_api', 'GalleryController@gallery_api');
 
     //deals api
     Route::get('deals_api', 'DealsController@deals_api');

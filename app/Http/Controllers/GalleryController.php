@@ -322,7 +322,7 @@ class GalleryController extends Controller
     public function gallery_api(Request $request)
     {
 
-
+        $link_id = $request->link_id;
         $data = DB::table('gallary_master')
             ->select('gallary_master.*')
 
@@ -332,6 +332,8 @@ class GalleryController extends Controller
 
 
         foreach ($data as $val) {
+            $post_id = $val->gallary_id;
+            
             $video = "";
             $desc = "";
             $is_video = $val->is_video;
@@ -346,6 +348,17 @@ class GalleryController extends Controller
             } else {
                 $desc = $description;
             }
+            $isLiked = 0;
+             $data1 = DB::table('gallary_liked_master')
+            ->select('gallary_liked_master.*')
+            ->where('post_id', $post_id)
+            ->where('link_id', $link_id)
+            ->get();
+        $cnt1 = count($data1);
+
+        if ($cnt1 > 0) {
+            $isLiked = 1;
+        } 
             $result[] = array(
                 'user_name' => "",
                 'post_id' => $val->gallary_id,
@@ -355,6 +368,7 @@ class GalleryController extends Controller
                 'posting_date_time' => $val->created_at,
                 'likes_count' => $val->nooflike,
                 'is_allow_to_share' => $val->allowshare,
+                'is_liked'=>$isLiked,
 
             );
         }

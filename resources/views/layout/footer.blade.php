@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-sm-6">
             <span class="footer-brand">
-                <strong class="text-danger">My Cycle</strong>
+                <strong style="color:#0BBAB3;">My Cycle</strong>
             </span>
             <p class="no-margin">
                 &copy; 2019. ALL Rights Reserved.
