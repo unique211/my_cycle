@@ -418,6 +418,13 @@ $(document).ready(function() {
                     doe = tdateAr[2] + '/' + tdateAr[1] + '/' + tdateAr[0];
                 }
 
+                var member_count = 0;
+                if (data[i].membertype == "Individual") {
+                    member_count = 0;
+                } else {
+                    member_count = parseInt(data[i].membercount) - 1;
+                }
+
 
                 // var tdateAr = doe.split('/');
                 // doe = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
@@ -431,7 +438,7 @@ $(document).ready(function() {
                     '<td id="membertype_' + data[i].member_id + '">' + data[i].membertype + '</td>' +
                     '<td style="display:none;" id="membertype_id_' + data[i].member_id + '">' + data[i].membertype_id + '</td>' +
                     '<td id="doe_' + data[i].member_id + '">' + doe + '</td>' +
-                    '<td id="membercount_' + data[i].member_id + '">' + data[i].membercount + '</td>' +
+                    '<td id="membercount_' + data[i].member_id + '">' + member_count + '</td>' +
 
                     '<td style="display:none;" id="dob_' + data[i].member_id + '">' + data[i].dob + '</td>' +
                     '<td style="display:none;" id="address_' + data[i].member_id + '">' + data[i].address + '</td>' +
@@ -606,7 +613,7 @@ $(document).ready(function() {
         var balancepoint_ = $('#balancepoint_' + id).html();
         var password = $('#password_' + id).html();
         var image_url_ = $('#image_url_' + id).html();
-        if (password == null) {
+        if (password == "null") {
             password = "";
         }
         if (dob_ != "") {

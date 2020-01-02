@@ -103,6 +103,18 @@ class MemberController extends Controller
                     'relation' => $value["relation"],
                     'password' => $value["password"],
                 );
+                $data_2 = array(
+                    'member_id' => $ref_id,
+                    'name' => $value["relname"],
+                    'userid' => $value["reluserid"],
+                    'relation' => $value["relation"],
+                    'password' => $value["password"],
+                    'dob' => $request->dob,
+                    'image' => $request->uploadimg_hidden,
+                    'address' => $request->address,
+                    'email_id' => $request->email,
+                );
+
 
 
                 $result =  DB::table('link_relation_ship')
@@ -110,9 +122,27 @@ class MemberController extends Controller
                     ->get();
 
                 $count = count($result);
-                if ($count > 0) { } else {
-                    $result =  DB::table('link_relation_ship')
-                        ->Insert($u_rights);
+                if ($count > 0) {
+                    if ($value["relation"] == "Main Member") {
+
+                        $result1 = DB::table('link_relation_ship')
+                            ->where('userid', $value["reluserid"])
+                            ->where('relation', "Main Member")
+                            ->update($data_2);
+                    } else {
+                        $result = DB::table('link_relation_ship')
+                            ->where('userid', $value["reluserid"])
+
+                            ->update($u_rights);
+                    }
+                } else {
+                    if ($value["relation"] == "Main Member") {
+                        $result =  DB::table('link_relation_ship')
+                            ->Insert($data_2);
+                    } else {
+                        $result =  DB::table('link_relation_ship')
+                            ->Insert($u_rights);
+                    }
                 }
             }
 
@@ -200,7 +230,7 @@ class MemberController extends Controller
                     $packagename = $packagedata->package_name;
                 }
 
-                $membertype_id=0;
+                $membertype_id = 0;
                 if ($membertype == "Individual") {
                     $membertype = $membertype;
                 } else {
@@ -209,7 +239,7 @@ class MemberController extends Controller
 
                     foreach ($customer3 as $member) {
                         $membertype = $member->member_type;
-                        $membertype_id=$member->membertype_id;
+                        $membertype_id = $member->membertype_id;
                     }
                 }
 
