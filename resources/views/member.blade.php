@@ -283,7 +283,7 @@
                                                 <th><font style="font-weight:bold"></font>@lang('site_lables.Member_Type')</th>
                                                 <th style="display:none;"><font style="font-weight:bold"></font>Member type id</th>
                                                 <th><font style="font-weight:bold"></font>@lang('site_lables.Date_of_Expiry')</th>
-                                                <th><font style="font-weight:bold"></font>@lang('site_lables.Member_Count')</th>
+                                                <th><font style="font-weight:bold"></font>@lang('site_lables.No_of_link_Relationship')</th>
                                                 <th style="display:none;"><font style="font-weight:bold"></font>Date of Birth</th>
                                                 <th style="display:none;"><font style="font-weight:bold"></font>Address</th>
                                                 <th style="display:none;"><font style="font-weight:bold"></font>Image</th>
