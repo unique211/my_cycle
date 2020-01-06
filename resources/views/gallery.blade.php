@@ -143,6 +143,7 @@
                                         <thead>
                                             <tr>
                                                 <th><font style="font-weight:bold">@lang('site_lables.Description')</font></th>
+                                                <th><font style="font-weight:bold">@lang('site_lables.no_of_likes')</font></th>
                                                 <th><font style="font-weight:bold"></font>@lang('site_lables.Allow_Share_Post')</th>
                                                 <th style="display:none;"><font style="font-weight:bold">@lang('site_lables.Upload_Img')</font></th>
                                                 <th class="not-export-column"><font style="font-weight:bold">@lang('site_lables.Action')</font>   </th>

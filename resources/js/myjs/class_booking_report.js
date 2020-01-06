@@ -1,5 +1,12 @@
 $(document).ready(function() {
 
+    $('.date').datepicker({
+        //todayHighlight: true,
+        format: 'dd/mm/yyyy',
+        autoclose: false,
+      //  beforeShowDay: highlightDays,           
+        });
+        $('.date').datepicker('refresh');
 
     validate = 1;
 
@@ -29,7 +36,10 @@ $(document).ready(function() {
         });
     }
 
-
+    function getDate(input) {
+        from = input.split("/");
+        return new Date(from[2], from[1] - 1, from[0]);
+    }
 
     //for submite of from inserting or updating Recored  --------Start
     $(document).on('submit', '#master_form', function(e) {
@@ -42,82 +52,55 @@ $(document).ready(function() {
         var member_id = $('#member_id').val();
 
 
+
+        var date1 = new Date();
+        date1 = date1.toString('dd/MM/yyyy');
+        var cur_date = getDate(date1);
+        var date_ini = getDate(from);
+        var date_end = getDate(to);
+
+
         var tdateAr = from.split('/');
-        from = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
+       var  fromdate = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
 
         var tdateAr = to.split('/');
-        to = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
+       var todate = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
 
 
 
-        $.ajax({
-            data: {
-                from: from,
-                to: to,
-                instructorid: instructorid,
-                classid: classid,
-                member_id: member_id,
-            },
-            url: getdata,
-            type: "POST",
-            dataType: 'json',
-            // async: false,
-            success: function(data) {
-                if ($.fn.DataTable.isDataTable('#data_table')) {
-
-                    $('#data_table').DataTable().destroy();
-                }
-                $('#data_table tbody').empty();
-                var html = "";
-                if (data.length > 0) {
-
-                    var Attendence = '';
-
-                    for (var i = 0; i < data.length; i++) {
-                        html += '<tr>' +
-                            '<td>' + data[i].class_name + '</td>' +
-                            '<td>' + data[i].schedule + '</td>' +
-                            '<td>' + data[i].instructor_name + '</td>' +
-                            '<td >' + data[i].booked_members + '</td>' +
-                            '<td>' + data[i].vacancy + '</td>' +
-                            '</tr>';
-                    }
+      
 
 
-                }
-                $('#table_tbody').html(html);
-                $('#data_table').dataTable({
-                    dom: 'Bfrtip',
-                    "pageLength": 50,
-                    buttons: [{
-                            extend: 'excelHtml5',
-                            title: 'Class Booking',
-                            exportOptions: {
-                                columns: [0, 1, 2, 3, 4]
-                            },
+        var today = new Date().toDateString();
 
-                        },
-                        {
-                            extend: 'print',
-                            title: 'Class Booking',
-                            exportOptions: {
-                                columns: [0, 1, 2, 3, 4]
-                            },
+        var date_ini2 = new Date(fromdate).toDateString();
+        var date_end2 = new Date(todate).toDateString();
 
 
 
-                        }
-                    ]
-                });
 
+
+        if (date_ini < date_end) {
+
+            datashow();
+            //put code here to call server
+        } else {
+            if (date_ini2 == date_end2) {
+                datashow();
+            } else {
+                swal("To Date is Invalid", "Hey, To Date is Always > OR = From Date !!", "error");
             }
-        });
+
+        }
+
+
+
 
 
     });
     //for submite of from inserting or updating Recored  --------Start
 
-    // datashow();
+  
 
     //form clear ------Strat
     function from_clear() {
@@ -129,7 +112,84 @@ $(document).ready(function() {
     }
 
 
+function datashow(){
 
+    var from = $('#from').val();
+    var to = $('#to').val();
+    var instructorid = $('#instructorid').val();
+    var classid = $('#class').val();
+    var member_id = $('#member_id').val();
+
+    var tdateAr = from.split('/');
+    var  fromdate = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
+
+     var tdateAr = to.split('/');
+    var todate = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
+
+
+    $.ajax({
+        data: {
+            from: fromdate,
+            to: todate,
+            instructorid: instructorid,
+            classid: classid,
+            member_id: member_id,
+        },
+        url: getdata,
+        type: "POST",
+        dataType: 'json',
+        // async: false,
+        success: function(data) {
+            if ($.fn.DataTable.isDataTable('#data_table')) {
+
+                $('#data_table').DataTable().destroy();
+            }
+            $('#data_table tbody').empty();
+            var html = "";
+            if (data.length > 0) {
+
+                var Attendence = '';
+
+                for (var i = 0; i < data.length; i++) {
+                    html += '<tr>' +
+                        '<td>' + data[i].class_name + '</td>' +
+                        '<td>' + data[i].schedule + '</td>' +
+                        '<td>' + data[i].instructor_name + '</td>' +
+                        '<td >' + data[i].booked_members + '</td>' +
+                        '<td>' + data[i].vacancy + '</td>' +
+                        '</tr>';
+                }
+
+
+            }
+            $('#table_tbody').html(html);
+            $('#data_table').dataTable({
+                dom: 'Bfrtip',
+                "pageLength": 50,
+                buttons: [{
+                        extend: 'excelHtml5',
+                        title: 'Class Booking',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+
+                    },
+                    {
+                        extend: 'print',
+                        title: 'Class Booking',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        },
+
+
+
+                    }
+                ]
+            });
+
+        }
+    });
+}
 
 
 

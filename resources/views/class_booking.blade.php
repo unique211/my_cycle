@@ -205,11 +205,11 @@
 
 
 <script>
-    $('.date').datepicker({
+    {{--  $('#from #to').datepicker({
 'todayHighlight': true,
 format: 'dd/mm/yyyy',
 autoclose: true,
-});
+});  --}}
 var date = new Date();
 date = date.toString('dd/MM/yyyy');
 

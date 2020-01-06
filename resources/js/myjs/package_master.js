@@ -113,8 +113,9 @@ $(document).ready(function() {
     function datashow() {
         if ($.fn.DataTable.isDataTable('#laravel_crud')) {
             $('#laravel_crud').DataTable().destroy();
+            $('#laravel_crud tbody').empty();
         }
-        $('#laravel_crud tbody').empty();
+
 
         $.get('get_all', function(data) {
 
@@ -135,40 +136,42 @@ $(document).ready(function() {
 
                 if (rights == 1) {
                     if (st == 1) {
-                        html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus"   id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '" checked data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                        html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus"   id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '" checked data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"></td>';
                     } else {
-                        html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus"   id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '"  data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
+                        html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus"   id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '"  data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"></td>';
                     }
-                    html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' +
-                        data[i].packege_id +
-                        '  status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' +
-                        data[i].packege_id + '><i class="fa fa-trash"></i></button></td>' + '</tr>';
+                    html += '<td class="not-export-column" ><button name="edit"  value="edit" class="edit_data btn btn-xs btn-success" id=' + data[i].packege_id + 'status=' + data[i].status + '><i class="fa fa-edit"></i></button>&nbsp;<button name="delete" value="Delete" class="delete_data btn btn-xs btn-danger" id=' + data[i].packege_id + '><i class="fa fa-trash"></i></button></td>';
                 } else {
                     if (st == 1) {
                         html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus" disabled  id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '" checked data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
                     } else {
                         html += '<td id="user_id_' + data[i].packege_id + '"> 	<input type="checkbox" class="btnstatus" disabled  id="chekcstatus_' + data[i].packege_id + '" name="chekcstatus_' + data[i].packege_id + '"  data-toggle="toggle"    data-on="Active" data-off="Inactive"  data-onstyle="success" data-offstyle="danger"  ></td>';
                     }
-                    html += '<td class="not-export-column" >-</td>' + '</tr>';
+                    html += '<td class="not-export-column" >-</td>';
                 }
-
+                html += '</tr>';
 
 
             }
 
             $('#table_tbody').html(html);
+         //   $('.btnstatus').bootstrapToggle();
+            if ($.fn.DataTable.isDataTable('#laravel_crud')) {
+                $('#laravel_crud').DataTable().destroy();
+               
+            }
+    
 
-            $('.btnstatus').bootstrapToggle();
+            $("#laravel_crud").DataTable({
+
+                "fnDrawCallback": function() { //for display for bootstraptoggle button
+                    jQuery('.btnstatus').bootstrapToggle();
+                }
+            });
 
         })
 
-        $('#laravel_crud').DataTable({
-
-            "fnDrawCallback": function() { //for display for bootstraptoggle button
-                jQuery('#laravel_crud .btnstatus').bootstrapToggle();
-            }
-
-        });
+     
 
 
 

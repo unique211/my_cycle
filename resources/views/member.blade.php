@@ -122,12 +122,12 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label>@lang('site_lables.Current') @lang('site_lables.Package')</label>
+                                                <label>@lang('site_lables.Current') @lang('site_lables.Package')*</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <select name="package" id="package" class="form-control input-sm">
+                                                <select name="package" id="package" class="form-control input-sm" required>
                                                     <option value="" selected disabled>@lang('site_lables.Select')
                                                     </option>
                                                     <option value="package_1">@lang('site_lables.Package') 1</option>
@@ -138,13 +138,13 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label>@lang('site_lables.Member_Type')</label>
+                                                <label>@lang('site_lables.Member_Type')*</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <select name="member_type" id="member_type"
-                                                    class="form-control input-sm">
+                                                    class="form-control input-sm" required>
 
 
                                                 </select>
@@ -152,14 +152,14 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label>@lang('site_lables.Date_of_Expire')</label>
+                                                <label>@lang('site_lables.Date_of_Expire')*</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group date" data-provide="datepicker">
                                                 <input type="text"
                                                     class="form-control input-sm placeholdesize datepicker" id="doe"
-                                                    name="doe">
+                                                    name="doe" required>
                                                 <div class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </div>
@@ -168,12 +168,12 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label>@lang('site_lables.BalancePoint') </label>
+                                                <label>@lang('site_lables.BalancePoint')* </label>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <input type="text" class="form-control input-sm placeholdesize"
-                                                placeholder="Balance Point" id="bal_point" name="bal_point">
+                                                placeholder="Balance Point" id="bal_point" name="bal_point" required>
                                         </div>
                                         <div class="col-sm-2">
                                             <div class="form-group">
@@ -185,7 +185,7 @@
                                                 <input type="file" id="upload" name="upload" class="form-control"
                                                     accept="image/*">
                                                 <input type="hidden" id="uploadimg_hidden" name="uploadimg_hidden"
-                                                    value="">
+                                                    value="0">
                                                 <div id="msg" name="msg"></div>
                                                 <div id="wait"
                                                     style="width:100px;height:100px;position:absolute;top:;left:45%;padding:2px;display:none">
@@ -306,7 +306,7 @@
                                                 <th>
                                                     <font style="font-weight:bold"></font>@lang('site_lables.Name')
                                                 </th>
-                                                <th>
+                                                <th >
                                                     <font style="font-weight:bold"></font>@lang('site_lables.Ic_Number')
                                                 </th>
                                                 <th>
@@ -634,20 +634,14 @@ var getpointusage="{{ url('getpointusage') }}";
 var role="<?php echo Session::get('role');?>";
 </script>
 <script>
-    $('.date').datepicker({
+    {{--  $('#dob #doe').datepicker({
                        'todayHighlight': true,
                        format: 'dd/mm/yyyy',
                        autoclose: true,
                        maxDate: '0',
 
-                  });
-                  $('.date1').datepicker({
-                       'todayHighlight': true,
-                       format: 'dd/mm/yyyy',
-                       autoclose: true,
-                       maxDate: '0',
-
-                  });
+                  });  --}}
+              
 
                   var date = new Date();
                   date = date.toString('dd/MM/yyyy');
