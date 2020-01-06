@@ -135,7 +135,7 @@ $(document).ready(function() {
                 html += '<tr>' +
 
                     '<td id="desc_' + data[i].gallary_id + '">' + desc + '</td>' +
-
+                    '<td id="desc_' + data[i].gallary_id + '">' + data[i].nooflike + '</td>' +
 
                     '<td style="display:none;" id="uploadimg_' + data[i].gallary_id + '">' + data[i].uploadimg + '</td>';
                 if (rights == 1) {

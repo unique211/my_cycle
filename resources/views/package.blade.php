@@ -115,7 +115,7 @@
                             <div class="panel-body ">
 
                                 <div class="table-responsive" id="show_master">
-                                    <table class="table-striped" id="laravel_crud" style="width:100%">
+                                    <table class="table table-striped" id="laravel_crud" style="width:100%">
                                         <thead>
                                             <tr>
 

@@ -161,18 +161,22 @@ $(document).ready(function() {
 
             $('#table_tbody').html(html);
 
-            $('.btnstatus').bootstrapToggle({
-                on: 'Active',
-                off: 'Inactive'
+            if ($.fn.DataTable.isDataTable('#laravel_crud')) {
+                $('#laravel_crud').DataTable().destroy();
+               
+            }
+    
+
+            $("#laravel_crud").DataTable({
+
+                "fnDrawCallback": function() { //for display for bootstraptoggle button
+                    jQuery('.btnstatus').bootstrapToggle();
+                }
             });
 
         })
 
-        $('#laravel_crud').DataTable({
-            "fnDrawCallback": function() {
-                jQuery('#laravel_crud .btnstatus').bootstrapToggle();
-            }
-        });
+      
 
     }
     //for desplay in table with data toggel Buttton------End

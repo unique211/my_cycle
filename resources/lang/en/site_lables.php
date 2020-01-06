@@ -270,6 +270,7 @@ return [
     'Map_image'=>'Map Image',
     'No_of_link_Relationship'=>'No. of link Relationship',
     'Reason'=>'Reason',
+    'no_of_likes'=>'No. of Likes',
 
 
 

@@ -1,5 +1,13 @@
 $(document).ready(function() {
 
+    $('.date').datepicker({
+        //todayHighlight: true,
+        format: 'dd/mm/yyyy',
+        autoclose: false,
+      //  beforeShowDay: highlightDays,           
+        });
+        $('.date').datepicker('refresh');
+
     var menu = 4;
     var rights = 1;
     user_access_rights();
@@ -447,7 +455,12 @@ $(document).ready(function() {
                 } else {
                     member_count = parseInt(data[i].membercount) - 1;
                 }
-
+                var ic_no="";
+                if (data[i].icno == null) {
+                    ic_no="";
+                } else {
+                    ic_no=data[i].icno;
+                }
 
                 // var tdateAr = doe.split('/');
                 // doe = tdateAr[2] + '-' + tdateAr[1] + '-' + tdateAr[0];
@@ -456,7 +469,7 @@ $(document).ready(function() {
                 html += '<tr>' +
                     '<td id="userid_' + data[i].member_id + '">' + data[i].user_id + '</td>' +
                     '<td id="membername_' + data[i].member_id + '">' + data[i].membername + '</td>' +
-                    '<td id="icno_' + data[i].member_id + '">' + data[i].icno + '</td>' +
+                    '<td  id="icno_' + data[i].member_id + '">' + ic_no + '</td>' +
                     '<td id="packagename_' + data[i].member_id + '">' + data[i].packagename + '</td>' +
                     '<td id="membertype_' + data[i].member_id + '">' + data[i].membertype + '</td>' +
                     '<td style="display:none;" id="membertype_id_' + data[i].member_id + '">' + data[i].membertype_id + '</td>' +

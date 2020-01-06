@@ -208,11 +208,15 @@
     });
 </script>
 <script>
-    $('.date').datepicker({
-'todayHighlight': true,
-format: 'dd/mm/yyyy',
-autoclose: true,
-});
+    {{--  $('.date').datepicker({
+        // 'todayHighlight':true,
+          autoclose: true,
+          todayHighlight: true,
+          beforeShowDay: highlightDays,            
+
+     });
+      --}}
+
 var date = new Date();
 date = date.toString('dd/MM/yyyy');
 

@@ -266,5 +266,5 @@ return [
     'Map_image'=>'地图图片',
     'No_of_link_Relationship'=>'链接数关系',
     'Reason'=>'原因',
-
+    'no_of_likes'=>'点赞次数',
 ];
