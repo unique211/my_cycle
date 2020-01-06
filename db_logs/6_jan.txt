@@ -1,0 +1,11 @@
+ALTER TABLE member_master CHANGE icno icno VARCHAR(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+ALTER TABLE member_master CHANGE dob dob DATE NULL;
+
+ALTER TABLE member_master CHANGE address address VARCHAR(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+ALTER TABLE member_master CHANGE email email VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+ALTER TABLE member_master CHANGE image_url image_url VARCHAR(250) CHARACTER SET utf8 COLLATE utf8_general_ci NULL;
+
+ALTER TABLE member_master CHANGE user_id user_id INT(11) NULL;
