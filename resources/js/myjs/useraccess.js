@@ -115,6 +115,7 @@ $(document).ready(function() {
         e.preventDefault();
         var usertype = $(this).val();
 
+
         userright(usertype);
     });
 
@@ -355,7 +356,7 @@ $(document).ready(function() {
             url: add_data,
             type: "POST",
             dataType: 'json',
-            // async: false,
+            async: false,
             success: function(data) {
 
                 if (data == "100") {
@@ -479,7 +480,7 @@ $(document).ready(function() {
         $("#name").val(user_name);
         $("#email").val(email_id);
         $("#phone").val(mobileno);
-        $("#user_type").val(role_).trigger('change');
+        $("#user_type").val(role_);
 
         $("#user_id").val(email_id);
 
@@ -497,31 +498,40 @@ $(document).ready(function() {
 
         $('#btnsave').text("Update");
 
+        $.ajax({
+            type: "GET",
+            url: 'getedituserright/' + id,
+            dataType: "JSON",
 
-        $.get('getedituserright/' + id, function(data) {
-            if (data.length > 0) {
-                $('input:checkbox').removeAttr('checked');
-                var data = eval(data);
-
-                for (var i = 0; i < data.length; i++) {
-
-
-
-                    if (data[i].userright == 0) {
-
-                        $('#r_' + data[i].menuid).prop('checked', true);
-                        $('#sub_' + data[i].submenuid).prop('checked', true);
+            async: false,
+            success: function(data) {
 
 
-                    } else {
-                        $('#m_' + data[i].menuid).prop('checked', true);
-                        $('#sub2_' + data[i].submenuid).prop('checked', true);
+
+                if (data.length > 0) {
+                    $('input:checkbox').removeAttr('checked');
+                    var data = eval(data);
+
+                    for (var i = 0; i < data.length; i++) {
+
+
+
+                        if (data[i].userright == 0) {
+
+                            $('#r_' + data[i].menuid).prop('checked', true);
+                            $('#sub_' + data[i].submenuid).prop('checked', true);
+
+
+                        } else {
+                            $('#m_' + data[i].menuid).prop('checked', true);
+                            $('#sub2_' + data[i].submenuid).prop('checked', true);
+                        }
+
+                        if (data[i].menuid > 0) {
+                            $('#_' + data[i].menuid).prop('checked', true).trigger('change');
+                        }
+
                     }
-
-                    if (data[i].menuid > 0) {
-                        $('#_' + data[i].menuid).prop('checked', true).trigger('change');
-                    }
-
                 }
             }
 
